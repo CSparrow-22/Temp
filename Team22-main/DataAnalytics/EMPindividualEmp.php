@@ -253,7 +253,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 					<?php
 
-	$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'usertasks';
+	$url = 'http://localhost/API/'.$_SESSION['time'].'usertasks';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
@@ -261,7 +261,7 @@ curl_close($ch);
 // Decode JSON data
 $usertasks = json_decode($response, true);
 
-$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'tasks';
+$url = 'http://localhost/API/'.$_SESSION['time'].'tasks';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
