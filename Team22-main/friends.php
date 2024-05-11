@@ -30,7 +30,7 @@ session_start()
                 </div>
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
-                            <p class="mb-4 text-m" style="color:gray;text-align:center">User Logged In</p>
+                        <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
                             <form class="sidebar-form">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
@@ -51,6 +51,9 @@ session_start()
                         </div>
                         <div class="button-container">
                             <button class="filter-button" id="requests-button" style="display:flex; padding-right: 5px;" onclick="showRequests()">Requests<div id="requests-notification" class="requests-notification"></div></button>
+                        </div>
+                        <div class="button-container">
+                            <button class="filter-button" id="add-friends-button" onclick="editGroupChat()">Edit Group Chat</button>
                         </div>
                     </div>
                 </div>
@@ -87,6 +90,9 @@ session_start()
     const userID = <?php echo $_SESSION['userID'] ?>;
     console.log("User id is:"+userID);
 
+    const currentUsername = '<?php echo $_SESSION['Username'] ?>';
+    console.log("Username is: "+ currentUsername);
+
     
     fetch('http://localhost/Team22/API/userfriends?UserID='+userID+'&is_accepted=1')
         .then(response => {
@@ -115,7 +121,7 @@ session_start()
                     data2.forEach(item2=>{
                         data.forEach(item=>{
                             if (item.friendsid==item2.UserID){
-                                content += "<li>"+item2.Username+"<button type='button' onclick='removeItem(this)'>remove</button></li>";
+                                content += "<li>"+item2.Username+"<button type='button' onclick='removeFriend(this,true)'>remove</button></li>";
                                 userNames.push(item2.Username);
                                         
                             }
@@ -145,7 +151,7 @@ session_start()
                                         }else{
                                             console.log(x.Username+" is now part of the list");
                                             userNames.push(x.Username);
-                                            content += "<li>"+x.Username+"<button type='button' onclick='removeItem(this)'>remove</button></li>";
+                                            content += "<li>"+x.Username+"<button type='button' onclick='removeFriend(this,true)'>remove</button></li>";
 
                                         }
                                     }
@@ -323,7 +329,7 @@ session_start()
                             data2.forEach(item2=>{
                                 data.forEach(item=>{
                                     if (item.userid==item2.UserID && item.is_accepted==0){
-                                        content += "<li>"+item2.Username+"<button type='button' id='denyRequest' onclick='removeItem(this)'>deny</button><button type='button' class='acceptRequest' onclick='acceptRequest(this)'>accept</button></li>";
+                                        content += "<li>"+item2.Username+"<button type='button' id='denyRequest' onclick='removeFriend(this,false)'>deny</button><button type='button' class='acceptRequest' onclick='acceptRequest(this)'>accept</button></li>";
                                     }
                                 })
                                 //content += "<li>"+item2.Username+"<button type='button' onclick='removeItem(this)'>remove</button></li>";
@@ -367,32 +373,86 @@ session_start()
         //When the input box 'members-entry' has had a key entered in it
         const input = document.getElementById("search-bar").value
 
-        fetch('http://localhost/Team22/API/users')
-                .then(response => {
-                    console.log('Response:', response);
-                    return response.text(); // Get the response text
-                })
-                .then(text => {
-                    console.log('Response Text:', text); // Log the response text
-                    // Attempt to parse the response text as JSON
-                    const data = JSON.parse(text);
-                    console.log('Data:', data);
-                    content="";
-                    data.forEach(item=>{
-                        if (item.Username.toLowerCase().includes(input.toLowerCase())){
-                            content += "<li onclick=selectInput(this)>"+item.Username+"</li>";
-                        }
-                    });
-                    content = "<ul>"+content+"</ul>";
-                    $(".results-box").html(content);
+        const cardHeader = document.getElementById("friends-header");
+        
 
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+        if (cardHeader.textContent == "Requests"){
+            console.log("REQUEST HEADER");
+            searchFilter(document.getElementById("requestsList"),false);
+        }else if (cardHeader.textContent == "My Friends" ){
+            console.log("MY FRIENDS HEADER");
+            searchFilter(document.getElementById("friendsList"),true);
+
+        }else {
+
+            if (input.length==0){
+                console.log("NOTHING TYPED");
+                resultsBox.innerHTML = ""
+            }else{
+                fetch('http://localhost/Team22/API/users')
+                        .then(response => {
+                            console.log('Response:', response);
+                            return response.text(); // Get the response text
+                        })
+                        .then(text => {
+                            console.log('Response Text:', text); // Log the response text
+                            // Attempt to parse the response text as JSON
+                            const data = JSON.parse(text);
+                            console.log('Data:', data);
+                            content="";
+                            data.forEach(item=>{
+                                if (item.Username.toLowerCase().includes(input.toLowerCase())){
+                                    content += "<li onclick=selectInput(this)>"+item.Username+"</li>";
+                                }
+                            });
+                            content = "<ul>"+content+"</ul>";
+                            $(".results-box").html(content);
+
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+            }
+        }
 
 
     });
+
+    function searchFilter(listnames,FriendsHeader){
+        //FriendsHeader is to differntiate between headers
+        //true is friends header, false will be requests header
+        console.log("Search filter func called");
+        const searchVal = document.getElementById("search-bar").value 
+        
+        //const listnames = document.getElementById("friendsList")
+        const listItems = listnames.getElementsByTagName("li")
+        // Checks for name entered is already in the team
+        const membersList = []
+
+        for (let i = 0; i < listItems.length; i++) {
+            //for loop goes through the current team members
+
+            //Line below ensures that the string only contains the name
+            let thename = ""
+            if (FriendsHeader==true){
+                thename = listItems[i].textContent.replace("remove", "")
+            }else{
+                thename = listItems[i].textContent.replace('deny','');
+                thename = thename.replace('accept','');
+
+            }
+            console.log("INCLUDES: "+thename.toUpperCase().includes(searchVal.toUpperCase()));
+            if (thename.toUpperCase().includes(searchVal.toUpperCase())){
+                listItems[i].style.display = "";
+                console.log(thename+" is shown");
+            }else{
+                listItems[i].style.display = "none";
+                console.log(thename+" is hidden");
+            }
+        }
+    }
+
+
 
     function addName() {
             //buttonfunc is a function that adds the name entered in input box 'members-entry' and displays it in 'team-members- as a list
@@ -421,8 +481,9 @@ session_start()
 
                 }
             }
-
-            if (duplicate==true){
+            if (addname==currentUsername){
+                alert("Cannot add yourself");
+            }else if (duplicate==true){
                 alert("name already added");
             }else{
                 //fetch('http://localhost/API/users?Username='+addname)
@@ -436,52 +497,56 @@ session_start()
                             // Attempt to parse the response text as JSON
                             data = JSON.parse(text);
                             //console.log('Data:', data);
-                            console.log("Friend username is: "+data[0]['Username']);
-                            console.log("Friend userID is: "+data[0]['UserID']);
+                            console.log("data length:"+data.length);
+                            if (data.length==0){
+                                alert("name entered must be in database");
+                            }else{
+                                console.log("Friend username is: "+data[0]['Username']);
+                                console.log("Friend userID is: "+data[0]['UserID']);
 
-                            //POST
-                            //---------------------------------------------------------------------------
-                            const endpoint = 'http://localhost/Team22/API/userfriends';
+                                //POST
+                                //---------------------------------------------------------------------------
+                                const endpoint = 'http://localhost/Team22/API/userfriends';
 
-                            const requestData = {
-                                userid: userID.toString(),
-                                friendsid: data[0]['UserID'].toString()
-                            };
+                                const requestData = {
+                                    userid: userID.toString(),
+                                    friendsid: data[0]['UserID'].toString()
+                                };
 
-                            // Convert the request data to a query string
-                            const queryParams = new URLSearchParams(requestData).toString();
+                                // Convert the request data to a query string
+                                const queryParams = new URLSearchParams(requestData).toString();
 
-                            // Append the query parameters to the endpoint URL
-                            const requestUrl = `${endpoint}?${queryParams}`;
+                                // Append the query parameters to the endpoint URL
+                                const requestUrl = `${endpoint}?${queryParams}`;
 
-                            // Define the request options
-                            const requestOptions = {
-                                method: 'POST',
-                                headers: {
-                                    'X-API-KEY': 'abc123' // Replace with a valid API key
-                                }
-                            };
-
-                            // Send the request
-                            fetch(requestUrl, requestOptions)
-                                .then(response => {
-                                    if (response.ok) {
-                                        return response.json();
-                                    } else {
-                                        throw new Error('Request failed with status ' + response.status);
+                                // Define the request options
+                                const requestOptions = {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-API-KEY': 'abc123' // Replace with a valid API key
                                     }
-                                })
-                                .then(data => {
-                                    console.log('Response data:', data);
-                                    alert("Request has been sent");
-                                    // Handle the response data as needed
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    // Handle the error as needed
-                                });
+                                };
+
+                                // Send the request
+                                fetch(requestUrl, requestOptions)
+                                    .then(response => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        } else {
+                                            throw new Error('Request failed with status ' + response.status);
+                                        }
+                                    })
+                                    .then(data => {
+                                        console.log('Response data:', data);
+                                        alert("Request has been sent");
+                                        // Handle the response data as needed
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        // Handle the error as needed
+                                    });
                             
-                            
+                            }
                             
                         })
                     
@@ -490,6 +555,9 @@ session_start()
                         .catch(error => {
                             console.error('Error:', error);
                         });
+
+                        //
+                    
 
 
             }
@@ -502,9 +570,9 @@ session_start()
             //removeItem is called when the 'remove' button is pressed to remove a name from a team
             const urlParams = new URLSearchParams(window.location.search)
 
+            console.log(element);
             
             let listItem = element.parentNode
-            console.log(listItem);
 
             listItem = element.parentNode
 
@@ -601,10 +669,115 @@ session_start()
             
         }
 
-        disableMyFriendsButton();
-        setInterval(() => {
-            generateRequestsNotification();
-        }, 1000);
+        function removeFriend(element,FriendsHeader){
+            console.log("REMOVE FRIEND FUNC ---------------------");
+            const urlParams = new URLSearchParams(window.location.search)
+
+            console.log(element);
+
+            let listItem = element.parentNode
+
+            const text = listItem.textContent.trim()
+            console.log(text);
+
+            let name = ""
+
+            if (FriendsHeader==true){
+                name = text.replace("remove", "")
+            }else{
+                name = text.replace('deny','');
+                name = name.replace('accept','');
+            }
+
+
+            // let name = text.replace('remove','');
+            // console.log("Name is: " + name);
+
+            fetch('http://localhost/Team22/API/users?Username='+name)
+                .then(response => {
+                    console.log('Response:', response);
+                    return response.text(); // Get the response text
+                })
+                .then(text => {
+                    console.log('Response Text:', text); // Log the response text
+                    // Attempt to parse the response text as JSON
+                    data = JSON.parse(text);
+                    //console.log('Data:', data);
+                    console.log("Friend username is: "+data[0]['Username']);
+                    console.log("Friend userID is: "+data[0]['UserID']);
+
+                    //DELETE--------------------------------------------------------
+                    const endpoint = 'http://localhost/Team22/API/userfriends';
+
+                    // const requestData = {
+                    //     userid: userID.toString(),
+                    //     friendsid: data[0]['UserID'].toString()
+                    // };
+                    let requestData;
+                    if (FriendsHeader==true){
+                        requestData = {
+                            userid: userID.toString(),
+                            friendsid: data[0]['UserID'].toString()
+                        };
+                    }else{
+                        requestData = {
+                            userid: data[0]['UserID'].toString(),
+                            friendsid: userID.toString()
+                        };
+                    }
+                    
+
+                    // Convert the request data to a query string
+                    const queryParams = new URLSearchParams(requestData).toString();
+
+                    // Append the query parameters to the endpoint URL
+                    const requestUrl = `${endpoint}?${queryParams}`;
+
+                    // Define the request options
+                    const requestOptions = {
+                        method: 'DELETE',
+                        headers: {
+                            'X-API-KEY': 'abc123' // Replace with a valid API key
+                        }
+                    };
+
+                    // Send the request
+                    fetch(requestUrl, requestOptions)
+                        .then(response => {
+                            if (response.ok) {
+                                
+                                return response.json();
+                            } else {
+                                throw new Error('Request failed with status ' + response.status);
+                            }
+                        })
+                        .then(data => {
+                            console.log('Response data:', data);
+                            removeItem(element);
+                            // Handle the response data as needed
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Handle the error as needed
+                        });
+
+                })
+            
+                //---------------------------------------------------------------
+
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function editGroupChat(){
+            window.location.href = "editgc.php?groupID=13";
+        }
+
+        // disableMyFriendsButton();
+        // setInterval(() => {
+        //     generateRequestsNotification();
+        // }, 1000);
 
 </script>
 <script>

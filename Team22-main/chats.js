@@ -158,7 +158,28 @@ function showChats(chats) {
             const buttonDiv = document.createElement("div"); // div containing everything on the button
             buttonDiv.className = "chat-button-div";
             const picture = document.createElement("button");
-            picture.innerHTML = 'PFP'
+            picture.className = "pfp";
+            if (element.colour == 0) {
+                picture.style.background = "darkred";
+            } else if (element.colour == 1) {
+                picture.style.background = "darkorange";
+            } else if (element.colour == 2) {
+                picture.style.background = "darkgoldenrod";
+            } else if (element.colour == 3) {
+                picture.style.background = "darkgreen";
+            } else if (element.colour == 4) {
+                picture.style.background = "darkcyan";
+            } else if (element.colour == 5) {
+                picture.style.background = "darkmagenta";
+            } else if (element.colour == 6) {
+                picture.style.background = "darkolivegreen";
+            } else if (element.colour == 7) {
+                picture.style.background = "darkslateblue";
+            } else if (element.colour == 8) {
+                picture.style.background = "darkslategray";
+            } else if (element.colour == 9) {
+                picture.style.background = "coral";
+            } 
             const infoDiv = document.createElement("div"); // div containing all info on the button next to PFP
             infoDiv.className = "chat-info-div";
             const person = document.createElement("p");
@@ -203,7 +224,7 @@ function showChats(chats) {
                                 userName = users[i].Username;
                             }
                         }
-                        
+                picture.innerHTML = userName.substring(0,1).toUpperCase(); 
                 if (element.lastSender == currentUser) {
                     if (element.isOpened == 0) {
                         person.innerHTML = userName;
@@ -305,7 +326,7 @@ function showChats(chats) {
                                 userName = users[i].Username;
                             }
                         }
-
+                picture.innerHTML = userName.substring(0,1).toUpperCase(); 
                 if (element.lastSender == currentUser) {
                     if (element.isOpened == 0) {
                         person.innerHTML = userName;
@@ -405,14 +426,31 @@ function search() {
         const data = JSON.parse(text);
         console.log('Data:', data);
 
-        if (allChatsFlag == true) {
-            var newChats = searchChats(data);
-            showChats(newChats);
-        } else if (allChatsFlag == false) {
-            var unreadChats = buildUnreadChats(data)
-            var newChats = searchChats(unreadChats);
-            showChats(newChats);
-        }
+        fetch('http://localhost/Team22/API/users')    
+        .then(response => {
+            console.log('Response:', response);
+            return response.text(); // Get the response text
+        })
+        .then(text => {
+            console.log('Response Text:', text); // Log the response text
+            // Attempt to parse the response text as JSON
+            const users = JSON.parse(text);
+            console.log('Data:', users);
+
+            if (allChatsFlag == true) {
+                var newChats = searchChats(data, users);
+                newChats.sort(sortByDate);
+                showChats(newChats);
+            } else if (allChatsFlag == false) {
+                var unreadChats = buildUnreadChats(data)
+                var newChats = searchChats(unreadChats, users);
+                showChats(newChats);
+            }
+        
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
         
         
     })
@@ -422,30 +460,46 @@ function search() {
     
 }
 
-function searchChats(chats) {
-    var newChats = [];
-    var input = document.getElementById("chat-search").value.toUpperCase();
+function searchChats(chats, users) {
+        var user;
+        var newChats = [];
+        var input = document.getElementById("chat-search").value.toUpperCase();
 
-    for(var i=0; i<chats.length; i++) {
-        const element = chats[i];
-        if (element.userID1 == currentUser) {
-            var name = String(element.userID2).toUpperCase();
-            if (name.indexOf(input) !== -1) {
-                newChats.push(element)
-            }
-        } else if (element.userID2 == currentUser) {
-            var name = String(element.userID1).toUpperCase();
-            if (name.indexOf(input) !== -1) {
-                newChats.push(element)
+        for(var i=0; i<chats.length; i++) {
+            //const element = chats[i];
+            if (chats[i].userID1 == currentUser) {
+        
+                for (var j = 0; j < users.length; j++) {
+                    if (users[j].UserID == chats[i].userID2) {
+                        user = users[j];
+                    }
+                }
+
+                var name = String(user.Username).toUpperCase();
+                if (name.indexOf(input) !== -1) {
+                    newChats.push(chats[i]);
+                }
+
+            } else if (chats[i].userID2 == currentUser) {
+
+                for (var j = 0; j < users.length; j++) {
+                    if (users[j].UserID == chats[i].userID1) {
+                        user = users[j];
+                    }
+                }
+
+                var name = String(user.Username).toUpperCase();
+                if (name.indexOf(input) !== -1) {
+                    newChats.push(chats[i]);
+                }
             }
         }
-    }
 
-    return newChats;
+        return newChats;
+        
+    
+
 }
-
-
-    showAllChats();
 
 
 function redirect_toMessages(ID) {
@@ -555,3 +609,6 @@ function set_isOpened(ID){
             // Handle the error as needed
         });
 }
+
+
+showAllChats();

@@ -31,7 +31,7 @@ session_start()
                 </div>
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
-                            <p class="mb-4 text-m" style="color:gray;text-align:center">User Logged In</p>
+                            <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
                             <form class="sidebar-form">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
@@ -44,10 +44,10 @@ session_start()
         <div class="chat_area"> 
 
 
-            <div class="chat_header">
+            <div class="card">
                 <div class="header_container">
-                    <span class="material-symbols-outlined" id="back_symbol" style="font-size: 30px; color:white; margin-top: 14px;" onclick="clickbackspan()">arrow_back</span>
-                    <div class="chat_name" id="chat_name"> 
+                    <span class="material-symbols-outlined" id="back_symbol" style="font-size: 30px; color:white; margin-top: 14px;padding-bottom:10px;" onclick="clickbackspan()">arrow_back</span>
+                    <div class="chat_name" id="chat_name" style=" padding-bottom: 5px"> 
                         <!-- Username is generated here by JS  -->
                     </div>  
                 </div>

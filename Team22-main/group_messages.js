@@ -7,6 +7,10 @@ const groupusersArray = [];
 // get the ChatID from the URL
 const GroupID = getURL_GroupID();
 
+function redirectToOptions() {
+    window.location.href = "editgc.php?groupID=" + GroupID.toString();
+}
+
 function getURL_GroupID(){    
         var queryString = window.location.search;
         var urlParams = new URLSearchParams(queryString);

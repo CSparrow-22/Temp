@@ -165,6 +165,7 @@ tr {
     display: flex;
     padding-left: 10px;
     padding-right: 10px;
+    align-items: center;
 }
 
 .chat-info-div {
@@ -256,11 +257,70 @@ tr {
     line-height: 18px;
 }
 
+.pfp {
+    width: 52px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.people-table,
+tr {
+    width: 100%;
+    border-top: solid 1px #28282B;
+}
+
+.no-people-body {
+    font-weight: lighter;
+    font-size: medium;
+}
+
+#people-button {
+    padding-top: 15px;
+    align-items: center;
+}
+
+.people-button-div {
+    height: 45px;
+    text-align: left;
+    display: flex;
+}
+
+.plus-div {
+    padding-left: 15px;
+    color: #1F75FE;
+}
+
+.name-div {
+    padding-left: 30px;
+    font-weight: bold;
+}
+
+.leave-group-button {
+    background-color: red;
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    justify-content: center;
+}
+
+.leave-group-button:hover {
+    background-color: rgb(248, 147, 147);
+}
+
+.people-list {
+    border-color: #151515;
+}
+
+
+
 /*message section */
 /*whole area on right side of screen*/
 .chat_area {
     position: relative;
     width: 100%;
+    align-items: center;
 }
 
 
@@ -296,14 +356,16 @@ tr {
 
 .header_container{
     /* width: 90%;
-    border-radius: 10px; */
+    border-radius: 10px;*/ 
     background-color: #151515;
     /* margin-left: 5%;
     margin-right: 5%; */
-    height: 60px;
+    height: 30px;
     /* padding: 15px; */
     padding-left: 20px;
     padding-right: 20px;
+    display:flex;
+    align-items: center;
 }
 
 .chat_name {
@@ -314,6 +376,12 @@ tr {
     padding-top: 6px;
 }
 
+.group-options-container {
+    align-items: center;
+    text-align: right;
+    padding-top: 10px;
+    width: 80%;
+}
 
 
 /*actual area for messages between contacts*/
@@ -736,21 +804,59 @@ margin-top: 1rem !important;
 }
 
 
+
+.members-list-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.members-list-name {
+    width:30%;
+    padding-bottom: 5px;
+}
+
+.members-list-button {
+    width:70%;
+    text-align: right;
+    padding-right: 30px;
+}
+
+.remove-button {
+    background-color: #28282B;
+    color: white;
+    border: solid 1px red;
+    border-radius: 20px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+.remove-button:hover {
+    background-color: #464647;
+}
+
 #groupList li {
     /* styling for the names that are part of a team */
     list-style: none;
-    border: 1px solid;
+    border-top: 1px solid #28282B;
     border-radius: 3px;
-    height: 50px;
+    height: 60px;
+    padding-top: 5px;
     
     padding: 5px 5px;
     /*cursor: pointer;*/
     color:white;
+    font-weight: bold;
 
 }
 
+/*
 #groupList li button {
     /* styling for the 'remove' button to remove a person from project */
+    /*
     color: white;
     background-color: red;
     padding: 5px 30px;
@@ -758,9 +864,11 @@ margin-top: 1rem !important;
     
     overflow: hidden;
     /* box-shadow: 0 4px var(--secondary-accent-color); */
+    /*
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     /* position: fixed; */
+    /*
     z-index: 1;
     text-align: center;
     border-radius: 30px;
@@ -770,3 +878,4 @@ margin-top: 1rem !important;
 #groupList li button:hover {
     background-color: rgb(255, 80, 80);
 }
+*/

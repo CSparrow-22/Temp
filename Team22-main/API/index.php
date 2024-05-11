@@ -14,7 +14,7 @@ $request_uri = rtrim($request_uri, '/'); // Remove trailing slash
 
 // Split the path into segments
 $path_segments = explode('/', $request_uri);
-$endpoint = $path_segments[5];
+$endpoint = $path_segments[3];
 
 
 // Check if the user is authenticated and authorized
@@ -313,9 +313,13 @@ switch ($endpoint) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new user-group mapping
-                $data = json_decode(file_get_contents('php://input'), true);
-                $userId = $data['userId'];
-                $groupId = $data['groupId'];
+                //$data = json_decode(file_get_contents('php://input'), true);
+                //$userId = $data['userId'];
+                //$groupId = $data['groupId'];
+
+
+                $userId = $_GET['UserID'];
+                $groupId = $_GET['GroupID'];
 
                 $stmt = $pdo->prepare("INSERT INTO usergroups (UserID, GroupID) VALUES (?, ?)");
                 $stmt->execute([$userId, $groupId]);
@@ -330,10 +334,10 @@ switch ($endpoint) {
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            if ($is_authenticated && $is_authorized || TRUE) { // Remove || TRUE once you've implemented authentication and authorization
+            if ($is_authenticated && $is_authorized || TRUE) { // Remove  TRUE once you've implemented authentication and authorization
                 // Handle the PUT request for updating an existing user-group record
-                $groupID = $_GET['groupID'];
-                $userID = $_GET['userID'];
+                $GroupID = $_GET['GroupID'];
+                $UserID = $_GET['UserID'];
 
                 // Check if the required data is present
                 if (isset($_GET['is_newChat']) || isset($_GET['isOpened'])) {
@@ -350,10 +354,11 @@ switch ($endpoint) {
                         $updateValues[] = $_GET['isOpened'];
                     }
 
-                    $updateValues[] = $groupID;
-                    $updateValues[] = $userID;
 
-                    $stmt = $pdo->prepare("UPDATE usergroup SET " . implode(", ", $updateFields) . " WHERE groupID = ? AND userID = ?");
+                    $updateValues[] = $GroupID;
+                    $updateValues[] = $UserID;
+
+                    $stmt = $pdo->prepare("UPDATE usergroups SET " . implode(", ", $updateFields) . " WHERE GroupID = ? AND UserID = ?");
                     $stmt->execute($updateValues);
 
                     if ($stmt->rowCount() > 0) {
@@ -388,7 +393,7 @@ switch ($endpoint) {
                         echo json_encode($response);
                     } else {
                         http_response_code(404);
-                        echo json_encode(["error" => "User-friend record not found"]);
+                        echo json_encode(["error" => "User-group record not found"]);
                     }
                 } else {
                     http_response_code(400);
@@ -409,8 +414,12 @@ switch ($endpoint) {
                 $filters[] = "UserID = ?";
             }
             // Check if FriendID filter is provided
-            if (isset($_GET['FriendID'])) {
-                $filters[] = "FriendID = ?";
+            if (isset($_GET['FriendsID'])) {
+                $filters[] = "FriendsID = ?";
+            }
+
+            if (isset($_GET['is_accepted'])){
+                $filters[] = "is_accepted = ?";
             }
             $result = getWithFilters($pdo, $filters, "userfriends");
             echo json_encode($result);
@@ -419,11 +428,14 @@ switch ($endpoint) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new user-friend mapping
-                $data = json_decode(file_get_contents('php://input'), true);
-                $userId = $data['userId'];
-                $friendId = $data['friendId'];
+                //$data = json_decode(file_get_contents('php://input'), true);
+                //$userId = $data['userid'];
+                //$friendId = $data['friendsid'];
 
-                $stmt = $pdo->prepare("INSERT INTO userfriends (UserID, FriendID) VALUES (?, ?)");
+                $userId = $_GET['userid'];
+                $friendId = $_GET['friendsid'];
+
+                $stmt = $pdo->prepare("INSERT INTO userfriends (userid, friendsid) VALUES (?, ?)");
                 $stmt->execute([$userId, $friendId]);
 
                 $response = [
@@ -513,13 +525,13 @@ switch ($endpoint) {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new group message
                 $data = json_decode(file_get_contents('php://input'), true);
-                $userId = $data['userId'];
-                $groupId = $data['groupId'];
-                $messageContent = $data['messageContent'];
-                $messageDate = $data['messageDate'];
+                $body = $_GET['body'];
+                $SenderID = $_GET['SenderID'];
+                $GroupID = $_GET['GroupID'];
+                $SentTime = $_GET['SentTime'];
 
-                $stmt = $pdo->prepare("INSERT INTO groupmessages (UserID, GroupID, MessageContent, MessageDate) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$userId, $groupId, $messageContent, $messageDate]);
+                $stmt = $pdo->prepare("INSERT INTO groupmessages (body, SenderID, GroupID, SentTime) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$body, $SenderID, $GroupID, $SentTime]);
                 $insertedId = $pdo->lastInsertId();
 
                 $response = [
@@ -603,12 +615,16 @@ switch ($endpoint) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new group
-                $data = json_decode(file_get_contents('php://input'), true);
-                $groupName = $data['groupName'];
-                $groupDescription = $data['groupDescription'];
+                // $data = json_decode(file_get_contents('php://input'), true);
+                // $groupName = $data['groupName'];
+                // $groupDescription = $data['groupDescription'];
 
-                $stmt = $pdo->prepare("INSERT INTO groups (GroupName, GroupDescription) VALUES (?, ?)");
-                $stmt->execute([$groupName, $groupDescription]);
+                $groupName = $_GET['GroupName'];
+                //$groupDescription = $_GET['GroupDescription'];
+
+
+                $stmt = $pdo->prepare("INSERT INTO groups (GroupName) VALUES (?)");
+                $stmt->execute([$groupName]);
                 $insertedId = $pdo->lastInsertId();
 
                 $response = [
@@ -621,29 +637,34 @@ switch ($endpoint) {
                 echo json_encode(["error" => "Access denied"]);
             }
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             if ($is_authenticated && $is_authorized || TRUE) { // Remove || TRUE once you've implemented authentication and authorization
                 // Handle the PUT request for updating an existing group
                 $groupID = $_GET['groupID'];
 
                 // Check if the required data is present
-                if (isset($_GET['groupName']) || isset($_GET['lastSender'])) {
+                if (isset($_GET['groupName']) || isset($_GET['lastSender']) || isset($_GET['lastEvent'])) {
                     $updateFields = [];
                     $updateValues = [];
-
+        
                     if (isset($_GET['groupName'])) {
-                        $updateFields[] = "groupName = ?";
+                        $updateFields[] = "GroupName = ?";
                         $updateValues[] = $_GET['groupName'];
                     }
-
+        
                     if (isset($_GET['lastSender'])) {
                         $updateFields[] = "lastSender = ?";
                         $updateValues[] = $_GET['lastSender'];
                     }
-
+        
+                    if (isset($_GET['lastEvent'])) {
+                        $updateFields[] = "lastEvent = ?";
+                        $updateValues[] = $_GET['lastEvent'];
+                    }
+        
                     $updateValues[] = $groupID;
-
-                    $stmt = $pdo->prepare("UPDATE groups SET " . implode(", ", $updateFields) . " WHERE groupID = ?");
+        
+                    $stmt = $pdo->prepare("UPDATE groups SET " . implode(", ", $updateFields) . " WHERE GroupID = ?");
                     $stmt->execute($updateValues);
 
                     if ($stmt->rowCount() > 0) {
@@ -679,6 +700,10 @@ switch ($endpoint) {
             if (isset($_GET['RecipientID'])) {
                 $filters[] = "RecipientID = ?";
             }
+            // Check if chatID filter is provided
+            if (isset($_GET['chatID'])) {
+                $filters[] = "chatID = ?";
+            }
             $result = getWithFilters($pdo, $filters, "messages");
             echo json_encode($result);
         }
@@ -687,13 +712,20 @@ switch ($endpoint) {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new message
                 $data = json_decode(file_get_contents('php://input'), true);
-                $senderId = $data['senderId'];
-                $recipientId = $data['recipientId'];
-                $messageContent = $data['messageContent'];
-                $messageDate = $data['messageDate'];
+                // $senderId = $data['senderId'];
+                // $recipientId = $data['recipientId'];
+                // $messageContent = $data['messageContent'];
+                // $messageDate = $data['messageDate'];
 
-                $stmt = $pdo->prepare("INSERT INTO messages (SenderID, RecipientID, MessageContent, MessageDate) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$senderId, $recipientId, $messageContent, $messageDate]);
+
+                $body = $_GET['body'];
+                $SenderID = $_GET['SenderID'];
+                $ReceiverID = $_GET['ReceiverID'];
+                $SentTime = $_GET['SentTime'];
+                $chatID = $_GET['chatID'];
+
+                $stmt = $pdo->prepare("INSERT INTO messages (body, SenderID, ReceiverID, SentTime, chatID) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$body, $SenderID, $ReceiverID, $SentTime, $chatID]);
                 $insertedId = $pdo->lastInsertId();
 
                 $response = [
@@ -707,7 +739,7 @@ switch ($endpoint) {
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            if ($is_authenticated && $is_authorized || TRUE) { // Remove || TRUE once you've implemented authentication and authorization
+            if ($is_authenticated && $is_authorized  || TRUE) { // Remove  TRUE once you've implemented authentication and authorization
                 // Handle the PUT request for updating an existing message
                 $messageID = $_GET['messageID'];
                 $body = $_GET['body'];
@@ -753,14 +785,15 @@ switch ($endpoint) {
             if ($is_authenticated && $is_authorized) {
                 // Handle the POST request for creating a new chat
                 $data = json_decode(file_get_contents('php://input'), true);
-                $userID1 = $data['userID1'];
-                $userID2 = $data['userID2'];
-                $lastSender = $data['lastSender'];
-                $isOpened = $data['isOpened'];
-                $lastEvent = $data['lastEvent'];
+                $userID1 = $_GET['userID1'];
+                $userID2 = $_GET['userID2'];
+                $lastSender = $_GET['lastSender'];
+                $isOpened = $_GET['isOpened'];
+                $lastEvent = $_GET['lastEvent'];
+                $colour = $_GET['colour'];
 
-                $stmt = $pdo->prepare("INSERT INTO chats (userID1, userID2, lastSender, isOpened, lastEvent) VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([$userID1, $userID2, $lastSender, $isOpened, $lastEvent]);
+                $stmt = $pdo->prepare("INSERT INTO chats (userID1, userID2, lastSender, isOpened, lastEvent, colour) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$userID1, $userID2, $lastSender, $isOpened, $lastEvent, $colour]);
                 $insertedId = $pdo->lastInsertId();
 
                 $response = [
@@ -777,10 +810,20 @@ switch ($endpoint) {
             if ($is_authenticated && $is_authorized || TRUE) { // Remove or TRUE once you've implemented authentication and authorization
                 // Handle the PUT request for updating an existing chat
                 $chatID = $_GET['chatID'];
-                $lastSender = $_GET['lastSender'];
+
                 $isOpened = $_GET['isOpened'];
-                $stmt = $pdo->prepare("UPDATE chats SET lastSender = ?, isOpened = ? WHERE chatID = ?");
-                $stmt->execute([$lastSender, $isOpened, $chatID]);
+                $lastEvent = $_GET['lastEvent'];
+
+                // Check if lastSender is provided in the request
+                if (isset($_GET['lastSender'])) {
+                    $lastSender = $_GET['lastSender'];
+                    $stmt = $pdo->prepare("UPDATE chats SET lastSender = ?, isOpened = ?, lastEvent = ? WHERE chatID = ?");
+                    $stmt->execute([$lastSender, $isOpened, $lastEvent, $chatID]);
+                } else {
+                    // Use the existing value of lastSender in the database
+                    $stmt = $pdo->prepare("UPDATE chats SET isOpened = ?, lastEvent = ? WHERE chatID = ?");
+                    $stmt->execute([$isOpened, $lastEvent, $chatID]);
+                }
 
                 if ($stmt->rowCount() > 0) {
                     $response = ['message' => 'Chat updated successfully'];
@@ -796,6 +839,7 @@ switch ($endpoint) {
         }
         break;
 
+//useables
 //useables
     case 'example':
 
@@ -823,6 +867,162 @@ switch ($endpoint) {
             echo json_encode($result);
         }
         break;
+    
+    
+
+
+case 'tasks':
+    // Endpoint for retrieving all tasks from last week
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $filters = [];
+        $result = getWithFilters($pdo, $filters, "tasks");
+        echo json_encode($result);
+    }
+    break;
+
+
+    case 'lastweekemployees':
+        // Endpoint for retrieving all employees
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekemployees");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeemployees':
+        // Endpoint for retrieving all active employees
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeemployees");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'lastweekexample':
+        // Endpoint for retrieving all examples from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekexample");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeexample':
+        // Endpoint for retrieving all active examples
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeexample");
+            echo json_encode($result);
+        }
+        break;
+    case 'activeweeklydata':
+        // Endpoint for retrieving all active examples
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeweeklydata");
+            echo json_encode($result);
+        }
+        break;
+        case 'lastweekweeklydata':
+            // Endpoint for retrieving all active examples
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $filters = [];
+                $result = getWithFilters($pdo, $filters, "lastweekweeklydata");
+                echo json_encode($result);
+            }
+            break;
+    
+    case 'lastweektasks':
+        // Endpoint for retrieving all tasks from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweektasks");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activetasks':
+        // Endpoint for retrieving all active tasks
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activetasks");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'lastweekuserprojects':
+        // Endpoint for retrieving all user projects from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekuserprojects");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeuserprojects':
+        // Endpoint for retrieving all active user projects
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeuserprojects");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'lastweekusers':
+        // Endpoint for retrieving all users from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekusers");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeusers':
+        // Endpoint for retrieving all active users
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeusers");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'lastweekusertasks':
+        // Endpoint for retrieving all user tasks from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekusertasks");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeusertasks':
+        // Endpoint for retrieving all active user tasks
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeusertasks");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'lastweekprojects':
+        // Endpoint for retrieving all projects from last week
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "lastweekprojects");
+            echo json_encode($result);
+        }
+        break;
+    
+    case 'activeprojects':
+        // Endpoint for retrieving all active projects
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $filters = [];
+            $result = getWithFilters($pdo, $filters, "activeprojects");
+            echo json_encode($result);
+        }
+        break;
+
 
 
 
@@ -863,6 +1063,7 @@ function authenticate() {
 
 function authorize($endpoint, $method) {
     $authorized_endpoints = [
+        'chats' => ['POST'],
         'users' => ['POST'],
         'userfriends'=> ['POST','PUT','DELETE'],
         'messages' => ['POST'],

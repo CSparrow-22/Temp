@@ -32,7 +32,7 @@ session_start();
                 </div>
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
-                            <p class="mb-4 text-m" style="color:gray;text-align:center">User Logged In</p>
+                            <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
                             <form class="sidebar-form">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
@@ -56,10 +56,14 @@ session_start();
 
 
                     <div class="search-container">
-                        <div class="search-container">
-                            <input class="search-bar" id="title-search-bar" placeholder="Group Name" required></input>
+                        <div class="search-container" style="display:flex;align-items:center">
+                            <div style="padding-right:10px">
+                                <input class="search-bar" id="title-search-bar" placeholder="Group Name" required></input>
+                            </div>
+                            
+                            <button class="filter-button" id="save-group-name" onclick="saveGroupName()">Save</button>
                         </div>
-                        <div class="search-container" style="display:flex">
+                        <div class="search-container" style="display:flex;align-items:center">
                             <div style="padding-right: 10px">
                                 <input class="search-bar" id="search-bar" placeholder="Add People"></input>
                             </div>
@@ -77,17 +81,27 @@ session_start();
 
                 <div class="card">
                     <div class="card-header" id="members-header">Members</div>
-                    <input class="search-bar" id="members-search-bar" placeholder="Add People"></input>
-                    <ul id="groupList">
+                    <div style="padding:5px;padding-bottom:20px">
+                        <input class="search-bar" id="members-search-bar" placeholder="Find Members"></input>
+                    </div>
+                    
+                    <ul id="groupList" class="people-list">
                     </ul>
                 </div>
+
+                <div class="card" style="text-align:center">
+                    <button class="leave-group-button" style="width:150px;font-weight:bold" onclick="">
+                        <i class="bi bi-box-arrow-left" style="padding-right:5px"></i>
+                    Leave Group</button>
+                </div>
+
             </div>
 
         </main>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- <script src = "notification.js"></script> -->
+<script src = "notification.js"></script>
 <script>
     //inserting friends from database:
     const urlParams = new URLSearchParams(window.location.search)
@@ -105,6 +119,23 @@ session_start();
     const currentUsername = '<?php echo $_SESSION['Username'] ?>';
     console.log("Username is: "+ currentUsername);
 
+    fetch('http://localhost/Team22/API/groups?GroupID='+groupID)
+        .then(response => {
+            //console.log('Response:', response);
+            return response.text(); // Get the response text
+        })
+        .then(text => {
+           //console.log('Response Text:', text); // Log the response text
+            // Attempt to parse the response text as JSON
+            const data = JSON.parse(text);
+            //console.log('Data:', data);
+            //content="";
+
+            document.getElementById("title-search-bar").value = data[0]['GroupName'];
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     
     fetch('http://localhost/Team22/API/usergroups?GroupID='+groupID)
         .then(response => {
@@ -133,9 +164,13 @@ session_start();
                     data2.forEach(item2=>{
                         data.forEach(item=>{
                             if (item.UserID==item2.UserID){
-                                content += "<li>"+item2.Username+"<button type='button' onclick='removeFriend(this,true)'>remove</button></li>";
-                                userNames.push(item2.Username);
-                                        
+                                if (item.UserID == userID) {
+                                    content += "<li><div class='members-list-container'><div class='members-list-name'>"+item2.Username+" (You)</div></div></li>"
+                                    userNames.push(item2.Username);
+                                } else{
+                                    content += "<li class='people-list-items'><div class='members-list-container'><div class='members-list-name'>"+item2.Username+"</div><div class='members-list-button'><button class='remove-button' type='button' onclick='removeFriend(this,true)'>Remove</button></div></div></li>";
+                                    userNames.push(item2.Username);
+                                }
                             }
                         })
                         
@@ -163,6 +198,9 @@ session_start();
     const inputBox = document.getElementById("search-bar");
     const resultsBox = document.querySelector(".results-box")
 
+    function backButton() {
+        window.location.href = "group_messages.php?GroupID=" + groupID.toString();
+    }
 
     function selectInput(x) {
             //selectInput is called by clicking on a name displayed in the div results-box
@@ -338,7 +376,7 @@ session_start();
                                     .then(data1 => {
                                         console.log('Response data:', data1);
                                         alert("They have been added to the group");
-                                        content = "<li>"+data[0]['Username']+"<button type='button' onclick='removeFriend(this)'>remove</button></li>";
+                                        content = "<li class='people-list-items'><div class='members-list-container'><div class='members-list-name'>"+data[0]['Username']+"</div><div class='members-list-button'><button class='remove-button' type='button' onclick='removeFriend(this,true)'>Remove</button></div></div></li>";
                                         listNames.innerHTML += content;
                                         // Handle the response data as needed
                                     })
@@ -371,30 +409,93 @@ session_start();
             //removeItem is called when the 'remove' button is pressed to remove a name from a team
             const urlParams = new URLSearchParams(window.location.search)
 
+            /*
             console.log(element);
             
             let listItem = element.parentNode
 
             listItem = element.parentNode
+            listItem = element.parentNode
+            listItem = element.parentNode
 
             // Get the parent <ul> element
-            const list = listItem.parentNode
-
+            const list = listItem.parentNode;
+            console.log(listItem);
             // Remove the <li> element from the <ul> element
             list.removeChild(listItem)
+            */
+            
+            document.getElementById("groupList").innerHTML = "";
+
+            fetch('http://localhost/Team22/API/usergroups?GroupID='+groupID)
+            .then(response => {
+                //console.log('Response:', response);
+                return response.text(); // Get the response text
+            })
+            .then(text => {
+            //console.log('Response Text:', text); // Log the response text
+                // Attempt to parse the response text as JSON
+                const data = JSON.parse(text);
+                //console.log('Data:', data);
+                //content="";
+
+                fetch('http://localhost/Team22/API/users')
+                    .then(response => {
+                        //console.log('Response:', response);
+                        return response.text(); // Get the response text
+                    })
+                    .then(text => {
+                        //console.log('Response Text:', text); // Log the response text
+                        // Attempt to parse the response text as JSON
+                        const data2 = JSON.parse(text);
+                        console.log('Data:', data2);
+                        content="";
+                        userNames=[];
+                        data2.forEach(item2=>{
+                            data.forEach(item=>{
+                                if (item.UserID==item2.UserID){
+                                    if (item.UserID == userID) {
+                                        content += "<li><div class='members-list-container'><div class='members-list-name'>"+item2.Username+" (You)</div></div></li>"
+                                        userNames.push(item2.Username);
+                                    } else{
+                                        content += "<li class='people-list-items'><div class='members-list-container'><div class='members-list-name'>"+item2.Username+"</div><div class='members-list-button'><button class='remove-button' type='button' onclick='removeFriend(this,true)'>Remove</button></div></div></li>";
+                                        userNames.push(item2.Username);
+                                    }
+                                }
+                            })
+                            
+                            
+                        });
+                        listNames.innerHTML = content;
+
+
+
+
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                        
+                        
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
 
         }
     
 
         function removeFriend(element){
-            console.log("REMOVE FRIEND FUNC ---------------------");
+            console.log("REMOVE FROM GROUP FUNC ---------------------");
             const urlParams = new URLSearchParams(window.location.search)
 
             console.log(element);
 
-            let listItem = element.parentNode
+            let listItem = element.parentNode.parentNode.parentNode
 
-            const text = listItem.textContent.trim()
+            var text = listItem.textContent.trim();
+            text = text.replace("Remove","");
             console.log(text);
 
             let name = ""
@@ -454,6 +555,7 @@ session_start();
                         })
                         .then(data => {
                             console.log('Response data:', data);
+                            alert("removed successfully");
                             removeItem(element);
                             // Handle the response data as needed
                         })
@@ -476,6 +578,11 @@ session_start();
         //     generateRequestsNotification();
         // }, 1000);
 
+</script>
+<script>
+    const currentUserID = <?php echo $_SESSION['userID'] ?>;
+    const currentUser = <?php echo $_SESSION['userID'] ?>;
+    console.log("User id is:"+currentUserID);
 </script>
 </body>
 </html>

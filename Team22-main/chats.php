@@ -30,9 +30,9 @@ session_start()
                 </div>
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
-                            <p class="mb-4 text-m" style="color:gray;text-align:center">User Logged In</p>
+                            <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
                             <form class="sidebar-form">
-                                <button type="submit" class="logout-btn">Log Out</button>
+                                <button type="submit" class="logout-btn" onclick="logOut()">Log Out</button>
                             </form>
                         </div>
         </aside>
@@ -43,6 +43,9 @@ session_start()
                 <div class="card">
                     <div style="display:flex">
                         <div class="card-header" style="width:85%">Chats</div>
+                        <div style="width:15%">
+                            <button class="new-button" onclick=newChat()><i class="bi bi-plus-lg"></i> New Chat</button>
+                        </div>
                     </div>
                     <div style="display: flex;">
                         <div class="button-container">
@@ -72,6 +75,11 @@ session_start()
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="chats.js"></script>
 <script src = "notification.js"></script>
+<script>
+    function newChat(){
+        window.location.href = "newchat.php";
+    }
+</script>
 <script>
     const currentUserID = <?php echo $_SESSION['userID'] ?>;
     const currentUser = <?php echo $_SESSION['userID'] ?>;

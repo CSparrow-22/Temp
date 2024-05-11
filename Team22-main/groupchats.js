@@ -91,6 +91,7 @@ function showAllGroups() {
                         usergroup[i].GroupName = groups[j].GroupName;
                         usergroup[i].lastSender = groups[j].lastSender;
                         usergroup[i].lastEvent = groups[j].lastEvent;
+                        usergroup[i].colour = groups[j].colour;
                     }
                 }
                 
@@ -157,6 +158,7 @@ function showUnreadGroups() {
                             usergroup[i].GroupName = groups[j].GroupName;
                             usergroup[i].lastSender = groups[j].lastSender;
                             usergroup[i].lastEvent = groups[j].lastEvent;
+                            usergroup[i].colour = groups[j].colour;
                         }
                     }
             }
@@ -194,6 +196,7 @@ function showGroups(groupchats) {
         row.appendChild(cell);
         table.appendChild(row);
     } else {
+        groupchats.sort(sortByDate);
         for(var i=0; i<groupchats.length; i++) {
             const element = groupchats[i];
             const row = document.createElement('tr');
@@ -211,7 +214,30 @@ function showGroups(groupchats) {
             const buttonDiv = document.createElement("div"); // div containing everything on the button
             buttonDiv.className = "chat-button-div";
             const picture = document.createElement("button");
-            picture.innerHTML = 'PFP'
+            picture.className = "pfp";
+            if (element.colour == 0) {
+                picture.style.background = "darkred";
+            } else if (element.colour == 1) {
+                picture.style.background = "darkorange";
+            } else if (element.colour == 2) {
+                picture.style.background = "darkgoldenrod";
+            } else if (element.colour == 3) {
+                picture.style.background = "darkgreen";
+            } else if (element.colour == 4) {
+                picture.style.background = "darkcyan";
+            } else if (element.colour == 5) {
+                picture.style.background = "darkmagenta";
+            } else if (element.colour == 6) {
+                picture.style.background = "darkolivegreen";
+            } else if (element.colour == 7) {
+                picture.style.background = "darkslateblue";
+            } else if (element.colour == 8) {
+                picture.style.background = "darkslategray";
+            } else if (element.colour == 9) {
+                picture.style.background = "coral";
+            } 
+
+
             const infoDiv = document.createElement("div"); // div containing all info on the button next to PFP
             infoDiv.className = "chat-info-div";
             const person = document.createElement("p");
@@ -237,6 +263,7 @@ function showGroups(groupchats) {
             const receivedIcon = document.createElement("i");
             receivedIcon.className = "bi bi-chat-right"; 
 
+            picture.innerHTML = element.GroupName.substring(0,1).toUpperCase(); 
                 if (element.lastSender == currentUser) {
                     if (element.isOpened == 0) {
                         person.innerHTML = element.GroupName;
@@ -341,6 +368,8 @@ function search() {
             // Attempt to parse the response text as JSON
             const usergroup = JSON.parse(text);
             console.log('Data:', usergroup);
+
+            var newGroups =[];
             
             for (var i = 0; i < usergroup.length; i++) {
                 if (usergroup[i].UserID == currentUser) {
@@ -349,17 +378,20 @@ function search() {
                             usergroup[i].GroupName = groups[j].GroupName;
                             usergroup[i].lastSender = groups[j].lastSender;
                             usergroup[i].lastEvent = groups[j].lastEvent;
+                            usergroup[i].colour = groups[j].colour;
                         }
                     }
+                    newGroups.push(usergroup[i]);
                 }
             }
 
             if (allGroupchatsFlag == true) {
-                var newChats = searchGroups(usergroup);
+                var newChats = searchGroups(newGroups);
                 showGroups(newChats);
             } else if (allGroupchatsFlag == false) {
-                var unreadGroupchats = buildUnreadChats(usergroup);
+                var unreadGroupchats = buildUnreadChats(newGroups);
                 var newChats = searchGroups(unreadGroupchats);
+                console.log(newChats);
                 showGroups(newChats);
             }
         
@@ -534,6 +566,7 @@ function get_lastSender(filters) {
 }
 
 function update_lastSendersOpen(groupID) {
+    console.log("BAM");
     get_lastSender({ GroupID: groupID })
         .then(lastSender => {
             console.log(lastSender);
@@ -541,6 +574,7 @@ function update_lastSendersOpen(groupID) {
             // Define the endpoint URL
             const endpoint = 'http://localhost/Team22/API/usergroups';
 
+            console.log("UPDATING");
             // Define the data you want to update
             const requestData = {
                 GroupID: groupID,

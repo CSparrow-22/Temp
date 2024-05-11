@@ -1,5 +1,3 @@
-
-
 function generateChatNotification() {
     fetch('http://localhost/Team22/API/chats')    
         .then(response => {
@@ -147,6 +145,11 @@ function generateRequestsNotification() {
 }
 
 
+function logOut() {
+    window.location.href = "sign%20in.php";
+}
+
+
 generateChatNotification();
 generateGroupchatNotification();
 
@@ -154,3 +157,31 @@ generateGroupchatNotification();
 setInterval(() => {
     generateFriendsNotification();
     }, 1000);
+
+
+
+fetch('http://localhost/Team22/API/users')
+    .then(response => {
+        console.log('Response:', response);
+        return response.text(); // Get the response text
+    })
+    .then(text => {
+        console.log('Response Text:', text); // Log the response text
+        // Attempt to parse the response text as JSON
+        const data = JSON.parse(text);
+        console.log('Data:', data);
+
+        var username;
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].UserID == currentUser) {
+                username = data[i].Username;
+            }
+        }
+
+        document.getElementById("user-logged-in").innerHTML = username + " Logged In";
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });

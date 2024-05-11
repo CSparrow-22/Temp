@@ -32,7 +32,7 @@ session_start();
                 </div>
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
-                            <p class="mb-4 text-m" style="color:gray;text-align:center">User Logged In</p>
+                            <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
                             <form class="sidebar-form">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
@@ -80,7 +80,7 @@ session_start();
                     <ul id="groupList">
                     </ul>
                 </div>
-            </div>
+            
 
         </main>
 </div>
@@ -222,6 +222,8 @@ session_start();
         const requestData = {
             GroupName: groupTitle
         };
+        
+        console.log(requestData);
 
         // Convert the request data to a query string
         const queryParams = new URLSearchParams(requestData).toString();
@@ -254,7 +256,7 @@ session_start();
                 console.log("post request works");
 
                 //---------------------------------------------------------------------------
-                /*fetch('http://localhost/Team22/API/groups?GroupName='+groupTitle)
+                fetch('http://localhost/Team22/API/groups?GroupName='+groupTitle)
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -271,7 +273,7 @@ session_start();
                     .catch(error => {
                         console.error('Error:', error);
                     });
-                    */
+                    
                 //--------------------------------------------------------------------------
             })
             .catch(error => {
@@ -423,6 +425,7 @@ session_start();
     const currentUserID = <?php echo $_SESSION['userID'] ?>;
     const currentUser = <?php echo $_SESSION['userID'] ?>;
     console.log("User id is:"+currentUserID);
+
 </script>
 
 </body>
