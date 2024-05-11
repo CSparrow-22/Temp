@@ -14,7 +14,7 @@ $request_uri = rtrim($request_uri, '/'); // Remove trailing slash
 
 // Split the path into segments
 $path_segments = explode('/', $request_uri);
-$endpoint = $path_segments[3];
+$endpoint = $path_segments[2];
 
 
 // Check if the user is authenticated and authorized
