@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'part3db';
+$dbname = 'part3DB';
 $username = 'root';
 $password = 'root';
 try {
