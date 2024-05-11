@@ -76,7 +76,7 @@ ini_set('display_errors', 1);
                     
                     //changes made--------------------------------------------------------
 
-                    fetch('http://34.105.175.255/Temp/Team22-main/API/users?Email='+email+'&Password='+password)
+                    fetch('http://localhost/Team22-main/API/users?Email='+email+'&Password='+password)
                             //will have to change url depending on file location
                             
                         .then(response => {
