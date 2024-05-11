@@ -3,7 +3,7 @@
 $host = 'localhost';
 $dbname = 'part3DB';
 $username = 'root';
-$password = 'root';
+$password = 'rot';
 
 try {
     // Create a PDO instance
