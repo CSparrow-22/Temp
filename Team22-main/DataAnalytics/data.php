@@ -293,7 +293,7 @@
 
             <?php
 
-$url = 'http://localhost/API/'.$_SESSION['time'].'employees';
+$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
