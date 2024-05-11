@@ -348,7 +348,7 @@ echo "
   'use strict'
 
 
-    fetch('API/index.php/".$_SESSION['time']."example')
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/".$_SESSION['time']."example')
     .then(response => response.json())
     .then(data => {
         // Graphs
