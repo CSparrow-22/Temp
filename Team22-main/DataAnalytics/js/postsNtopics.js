@@ -5,7 +5,7 @@
 
 
 
-  fetch('http://localhost/API/weeklydata')
+  fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/weeklydata')
       .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
