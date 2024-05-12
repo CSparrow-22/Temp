@@ -57,6 +57,17 @@ function showAllGroups() {
     allGroupchatsFlag = true;
 
     fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups')    
+    .then(response => {
+        console.log('Response:', response);
+        return response.text(); // Get the response text
+    })
+    .then(text => {
+        console.log('Response Text:', text); // Log the response text
+        // Attempt to parse the response text as JSON
+        const groups = JSON.parse(text);
+        console.log('Data:', groups);
+
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -64,56 +75,45 @@ function showAllGroups() {
         .then(text => {
             console.log('Response Text:', text); // Log the response text
             // Attempt to parse the response text as JSON
-            const groups = JSON.parse(text);
-            console.log('Data:', groups);
-    
-            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
-                .then(response => {
-                    console.log('Response:', response);
-                    return response.text(); // Get the response text
-                })
-                .then(text => {
-                    console.log('Response Text:', text); // Log the response text
-                    // Attempt to parse the response text as JSON
-                    const list = JSON.parse(text);
-                    console.log('Data:', list);
-        
-                    var usergroup = [];
-        
-                    for (var i = 0; i < list.length; i++) {
-                        if(list[i].UserID == currentUser) {
-                            usergroup.push(list[i]);
-                        }
-                    }
-                
-                    for (var i = 0; i < usergroup.length; i++) {
-                        for (var j = 0; j < groups.length; j++) {
-                            if (usergroup[i].GroupID == groups[j].GroupID) {
-                                usergroup[i].GroupName = groups[j].GroupName;
-                                usergroup[i].lastSender = groups[j].lastSender;
-                                usergroup[i].lastEvent = groups[j].lastEvent;
-                                usergroup[i].colour = groups[j].colour;
-                            }
-                        }
-                        
-                    }
-        
-                    usergroup.sort(sortByDate);
-                    showGroups(usergroup);
-                    disableAllGroupsButton();
-                    enableUnreadGroupsButton();
-                
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            const list = JSON.parse(text);
+            console.log('Data:', list);
+
+            var usergroup = [];
+
+            for (var i = 0; i < list.length; i++) {
+                if(list[i].UserID == currentUser) {
+                    usergroup.push(list[i]);
+                }
+            }
             
-            
+            for (var i = 0; i < usergroup.length; i++) {
+                for (var j = 0; j < groups.length; j++) {
+                    if (usergroup[i].GroupID == groups[j].GroupID) {
+                        usergroup[i].GroupName = groups[j].GroupName;
+                        usergroup[i].lastSender = groups[j].lastSender;
+                        usergroup[i].lastEvent = groups[j].lastEvent;
+                        usergroup[i].colour = groups[j].colour;
+                    }
+                }
+                
+            }
+
+            usergroup.sort(sortByDate);
+            showGroups(usergroup);
+            disableAllGroupsButton();
+            enableUnreadGroupsButton();
+        
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    
+        
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
 
 }
 
@@ -131,51 +131,52 @@ function showUnreadGroups() {
         .then(text => {
             console.log('Response Text:', text); // Log the response text
             // Attempt to parse the response text as JSON
+            console.log(text);
             const groups = JSON.parse(text);
             console.log('Data:', groups);
 
-        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
-            .then(response => {
-                console.log('Response:', response);
-                return response.text(); // Get the response text
-            })
-            .then(text => {
-                console.log('Response Text:', text); // Log the response text
-                // Attempt to parse the response text as JSON
-                const list = JSON.parse(text);
-                console.log('Data:', list);
-    
-                var usergroup = [];
-    
-                for (var i = 0; i < list.length; i++) {
-                    if(list[i].UserID == currentUser) {
-                        usergroup.push(list[i]);
-                    }
-                }
-                
-                for (var i = 0; i < usergroup.length; i++) {
-                        for (var j = 0; j < groups.length; j++) {
-                            if (usergroup[i].GroupID == groups[j].GroupID) {
-                                usergroup[i].GroupName = groups[j].GroupName;
-                                usergroup[i].lastSender = groups[j].lastSender;
-                                usergroup[i].lastEvent = groups[j].lastEvent;
-                                usergroup[i].colour = groups[j].colour;
-                            }
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
+                .then(response => {
+                    console.log('Response:', response);
+                    return response.text(); // Get the response text
+                })
+                .then(text => {
+                    console.log('Response Text:', text); // Log the response text
+                    // Attempt to parse the response text as JSON
+                    const list = JSON.parse(text);
+                    console.log('Data:', list);
+
+                    var usergroup = [];
+
+                    for (var i = 0; i < list.length; i++) {
+                        if(list[i].UserID == currentUser) {
+                            usergroup.push(list[i]);
                         }
-                }
-    
-                var unreadGroupchats = buildUnreadChats(usergroup);
-                unreadGroupchats.sort(sortByDate);
-                showGroups(unreadGroupchats);
-                disableUnreadGroupsButton();
-                enableAllGroupsButton();
+                    }
+                    
+                    for (var i = 0; i < usergroup.length; i++) {
+                            for (var j = 0; j < groups.length; j++) {
+                                if (usergroup[i].GroupID == groups[j].GroupID) {
+                                    usergroup[i].GroupName = groups[j].GroupName;
+                                    usergroup[i].lastSender = groups[j].lastSender;
+                                    usergroup[i].lastEvent = groups[j].lastEvent;
+                                    usergroup[i].colour = groups[j].colour;
+                                }
+                            }
+                    }
+
+                    var unreadGroupchats = buildUnreadChats(usergroup);
+                    unreadGroupchats.sort(sortByDate);
+                    showGroups(unreadGroupchats);
+                    disableUnreadGroupsButton();
+                    enableAllGroupsButton();
+                
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                
             
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        
-        
         })
         .catch(error => {
             console.error('Error:', error);
