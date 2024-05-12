@@ -291,69 +291,46 @@
 
             <canvas class="my-4 w-100" id="myChart" width="137" height="57" style="display: block; box-sizing: border-box; height: 46px; width: 109px;"></canvas>
 
-            <?php
-echo "hi";
+         <?php
 
-
-$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
+$url = 'http://localhost/API/'.$_SESSION['time'].'employees';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
-if(curl_errno($ch)) {
-        echo 'cURL Error: ' . curl_error($ch);
-    }
+curl_close($ch);
 
-// Check if response is not empty
-    if(!empty($response)) {
-        // Decode JSON response
-        $data = json_decode($response, true);
+$data = json_decode($response, true);
 
-        // Check if decoding was successful
-        if($data !== null) {
-            // Echo separator
-            echo "------";
 
-            // Echo $_SESSION['time']
-            echo $_SESSION['time'];
+// Create table
+echo '<h2>Recent Tasks Completed</h2>';
+echo '<div class="table-responsive small">';
+echo '<table class="table table-striped table-sm">';
+echo '<thead>';
+echo '<tr>';
+echo '<th scope="col">First Name</th>';
+echo '<th scope="col">Last Name</th>';
+echo '<th scope="col">Team Number</th>';
+echo '<th scope="col">Task Number</th>';
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
 
-            // Echo separator
-            echo "------";
+foreach ($data as $row) {
+    echo '<tr>';
+    echo '<td>' . $row['firstname'] . '</td>';
+    echo '<td>' . $row['lastname'] . '</td>';
+    echo '<td>' . $row['team_number'] . '</td>';
+    echo '<td>' . $row['task_number'] . '</td>';
+    echo '</tr>';
+}
 
-            // Create table
-            echo '<h2>Recent Tasks Completed</h2>';
-            echo '<div class="table-responsive small">';
-            echo '<table class="table table-striped table-sm">';
-            echo '<thead>';
-            echo '<tr>';
-            echo '<th scope="col">First Name</th>';
-            echo '<th scope="col">Last Name</th>';
-            echo '<th scope="col">Team Number</th>';
-            echo '<th scope="col">Task Number</th>';
-            echo '</tr>';
-            echo '</thead>';
-            echo '<tbody>';
+echo '</tbody>';
+echo '</table>';
+echo '</div>';
 
-            // Loop through data and display in table rows
-            foreach ($data as $row) {
-                echo '<tr>';
-                echo '<td>' . $row['firstname'] . '</td>';
-                echo '<td>' . $row['lastname'] . '</td>';
-                echo '<td>' . $row['team_number'] . '</td>';
-                echo '<td>' . $row['task_number'] . '</td>';
-                echo '</tr>';
-            }
-
-            echo '</tbody>';
-            echo '</table>';
-            echo '</div>';
-        } else {
-            echo "Failed to decode JSON response.";
-        }
-    } else {
-        echo "Empty response from server.";
-    }
-} 
 ?>
+
 
 
         </main>
