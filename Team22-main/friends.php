@@ -107,7 +107,7 @@ session_start()
     sentRequestsCard.setAttribute("hidden", "hidden");
 
     
-    fetch('http://localhost/Team22/API/userfriends?UserID='+userID+'&is_accepted=1')
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends?UserID='+userID+'&is_accepted=1')
         .then(response => {
             //console.log('Response:', response);
             return response.text(); // Get the response text
@@ -119,7 +119,7 @@ session_start()
             //console.log('Data:', data);
             //content="";
 
-            fetch('http://localhost/Team22/API/users')
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                 .then(response => {
                     //console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -146,7 +146,7 @@ session_start()
 
 
 
-                    fetch('http://localhost/Team22/API/userfriends?FriendsID='+userID+'&is_accepted=1')
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends?FriendsID='+userID+'&is_accepted=1')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -303,7 +303,7 @@ session_start()
         myFriendsSearchBar.setAttribute("hidden", "hidden");
 
 
-        fetch('http://localhost/Team22/API/userfriends?FriendsID='+userID+'is_accepted=0')
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends?FriendsID='+userID+'is_accepted=0')
                 .then(response => {
                     console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -318,7 +318,7 @@ session_start()
 
                     
 
-                    fetch('http://localhost/Team22/API/users')
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -362,7 +362,7 @@ session_start()
 
 
     function showSentRequests () {
-        fetch('http://localhost/Team22/API/userfriends?userid='+userID+'is_accepted=0')
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends?userid='+userID+'is_accepted=0')
                 .then(response => {
                     console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -377,7 +377,7 @@ session_start()
 
                     
 
-                    fetch('http://localhost/Team22/API/users')
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -441,7 +441,7 @@ session_start()
         if (input.length == 0) {
             resultsBox.innerHTML = "";
         } else {
-            fetch('http://localhost/Team22/API/users')
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -476,7 +476,7 @@ session_start()
         const input = document.getElementById("my-friends-search-bar").value.toUpperCase();
         console.log(input);
 
-        fetch('http://localhost/Team22/API/userfriends')
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -495,7 +495,7 @@ session_start()
                             }
                         }
 
-                        fetch('http://localhost/Team22/API/users')
+                        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -580,7 +580,7 @@ session_start()
             }else{
 
                 //fetch('http://localhost/API/users?Username='+addname)
-                fetch('http://localhost/Team22/API/users?Username='+addname)
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+addname)
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -599,7 +599,7 @@ session_start()
                         console.log("Friend username is: "+data[0]['Username']);
                         console.log("Friend userID is: "+data[0]['UserID']);
 
-                        fetch('http://localhost/Team22/API/userfriends')
+                        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                             .then(response => {
                                 console.log('Response:', response);
                                 return response.text(); // Get the response text
@@ -625,7 +625,7 @@ session_start()
 
                                     //POST
                                     //---------------------------------------------------------------------------
-                                    const endpoint = 'http://localhost/Team22/API/userfriends';
+                                    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends';
 
                                     const requestData = {
                                         userid: userID.toString(),
@@ -701,7 +701,7 @@ session_start()
 
         console.log(name);
 
-        fetch('http://localhost/Team22/API/users?Username='+name)
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+name)
                 .then(response => {
                     console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -716,7 +716,7 @@ session_start()
 
                     
 
-                    fetch('http://localhost/Team22/API/userfriends')
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -740,7 +740,7 @@ session_start()
                             }
 
 
-                            const endpoint = 'http://localhost/Team22/API/userfriends';
+                            const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends';
 
                             const requestData = {
                                 userid: thisUserID,
@@ -807,7 +807,7 @@ session_start()
         const text = listItem.textContent.trim()
         const name = text.replace("DenyAccept", "")
 
-        fetch('http://localhost/Team22/API/users?Username='+name)
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+name)
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -820,7 +820,7 @@ session_start()
                 console.log("Friend username is: "+data[0]['Username']);
                 console.log("Friend userID is: "+data[0]['UserID']);
 
-                fetch('http://localhost/Team22/API/userfriends')
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -840,7 +840,7 @@ session_start()
                             }
                         }
 
-                        const endpoint = 'http://localhost/Team22/API/userfriends';
+                        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends';
 
                             const requestData = {
                                 userid: thisUserID,
@@ -911,7 +911,7 @@ session_start()
         const text = listItem.textContent.trim()
         const name = text.replace("Cancel", "")
 
-        fetch('http://localhost/Team22/API/users?Username='+name)
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+name)
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -924,7 +924,7 @@ session_start()
                 console.log("Friend username is: "+data[0]['Username']);
                 console.log("Friend userID is: "+data[0]['UserID']);
 
-                fetch('http://localhost/Team22/API/userfriends')
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -944,7 +944,7 @@ session_start()
                             }
                         }
 
-                        const endpoint = 'http://localhost/Team22/API/userfriends';
+                        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends';
 
                             const requestData = {
                                 userid: thisUserID,
@@ -1041,7 +1041,7 @@ session_start()
             console.log(name);
 
 
-            fetch('http://localhost/Team22/API/users?Username='+name)
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+name)
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -1056,7 +1056,7 @@ session_start()
 
                             //PUT
                             //---------------------------------------------------------------------------
-                            const endpoint = 'http://localhost/Team22/API/userfriends';
+                            const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends';
 
                             const requestData = {
                                 userid: data[0]['UserID'].toString(),

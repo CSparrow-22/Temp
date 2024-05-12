@@ -64,7 +64,7 @@ function clickbackspan() {
 
 
 function fetch_Groupname(filters) {
-    let url = 'http://localhost/Team22/API/groups';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groups';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -96,7 +96,7 @@ fetch_Groupname({GroupID: GroupID});         //calls once at the load of the pag
 
 
 function fetchAll_groupMemberIDs(filters) {
-    let url = 'http://localhost/Team22/API/usergroups';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -125,7 +125,7 @@ function fetchAll_groupMemberIDs(filters) {
 
 
 function fetchAll_groupMemberUsernames(filters) {
-    let url = 'http://localhost/Team22/API/users';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/users';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -194,7 +194,7 @@ findGroupMembers();
 
 // Define the function to fetch messages and update the UI
 function fetchAll_messages(filters) {
-    let url = 'http://localhost/Team22/API/groupmessages';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groupmessages';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -444,7 +444,7 @@ function sendMessage() {
 
 
         // Define the endpoint URL
-        const endpoint = 'http://localhost/Team22/API/groupmessages';
+        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groupmessages';
 
         
         // Get the current date and time
@@ -513,7 +513,7 @@ function sendMessage() {
 
 function update_lastSenders(){
         // Define the endpoint URL
-        const endpoint = 'http://localhost/Team22/API/groups';
+        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groups';
 
         // Get the current date and time
         var now = new Date();
@@ -563,7 +563,7 @@ function update_lastSenders(){
 
 
 function update_isNewChats(user) {
-    const endpoint = 'http://localhost/Team22/API/usergroups';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
 
     // Define the data you want to update (e.g., groupName and lastSender)
@@ -608,7 +608,7 @@ function update_isNewChats(user) {
 }
 
 function set_myIsOpened() {
-    const endpoint = 'http://localhost/Team22/API/usergroups';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
 
     // Define the data you want to update (e.g., groupName and lastSender)

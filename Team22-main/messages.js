@@ -54,7 +54,7 @@ function clickbackspan() {
 
 
 function fetchUsername(filters) {
-    let url = 'http://localhost/Team22/API/users';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/users';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -77,7 +77,7 @@ function fetchUsername(filters) {
         });
 } 
 function fetch_personchattingwith(filters){
-    let url = 'http://localhost/Team22/API/chats';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -111,7 +111,7 @@ fetch_personchattingwith({chatID: chatID});  //calls once at the load of the pag
 
 // Define the function to fetch messages and update the UI
 function fetchAll_messages(filters) {
-    let url = 'http://localhost/Team22/API/messages';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/messages';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -301,7 +301,7 @@ function scrollmessages_toBottom() {
 
 
 function fetch_IDChattingwith(filters) {
-    let url = 'http://localhost/Team22/API/chats';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -341,7 +341,7 @@ function sendMessage() {
         fetch_IDChattingwith({ chatID: chatID })
             .then(receiver => {
                 // Define the endpoint URL
-                const endpoint = 'http://localhost/Team22/API/messages';
+                const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/messages';
 
                 // Get the current date and time
                 var now = new Date();
@@ -408,7 +408,7 @@ function resetTextArea(){   //resets changing text area back to original size
 
 function update_lastSenders(){
     // Define the endpoint URL
-    const endpoint = 'http://localhost/Team22/API/chats';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
     // Get the current date and time
     var now = new Date();

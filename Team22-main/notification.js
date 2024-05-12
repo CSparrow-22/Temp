@@ -1,5 +1,5 @@
 function generateChatNotification() {
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -37,7 +37,7 @@ function generateChatNotification() {
 
 
 function generateGroupchatNotification() {
-    fetch('http://localhost/Team22/API/usergroups')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -75,7 +75,7 @@ function generateGroupchatNotification() {
 }
 
 function generateFriendsNotification() {
-    fetch('http://localhost/Team22/API/userfriends')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -110,7 +110,7 @@ function generateFriendsNotification() {
 }
 
 function generateRequestsNotification() {
-    fetch('http://localhost/Team22/API/userfriends')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -156,7 +156,7 @@ setInterval(() => {
 
     
 
-fetch('http://localhost/Team22/API/users')
+fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text

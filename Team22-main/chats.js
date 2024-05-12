@@ -56,7 +56,7 @@ function showAllChats() {
 
     allChatsFlag = true;
 
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -95,7 +95,7 @@ function showUnreadChats() {
 
     allChatsFlag = false;
 
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -206,7 +206,7 @@ function showChats(chats) {
             receivedIcon.className = "bi bi-chat-right"; 
 
             if (element.userID1 == currentUser) {
-                fetch('http://localhost/Team22/API/users')    
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')    
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -308,7 +308,7 @@ function showChats(chats) {
 
             } else if (element.userID2 == currentUser) {
 
-                fetch('http://localhost/Team22/API/users')    
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')    
                     .then(response => {
                         console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -415,7 +415,7 @@ function showChats(chats) {
 }
 
 function search() {
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -426,7 +426,7 @@ function search() {
         const data = JSON.parse(text);
         console.log('Data:', data);
 
-        fetch('http://localhost/Team22/API/users')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -525,7 +525,7 @@ function redirect_toMessages(ID) {
 
 
 function is_newChat(filters) {
-    let url = 'http://localhost/Team22/API/chats';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -563,7 +563,7 @@ function is_newChat(filters) {
 
 function set_isOpened(ID){
     // Define the endpoint URL
-    const endpoint = 'http://localhost/Team22/API/chats';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
     // Get the current date and time
     var now = new Date();

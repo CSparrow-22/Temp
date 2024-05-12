@@ -119,7 +119,7 @@ session_start();
     const currentUsername = '<?php echo $_SESSION['Username'] ?>';
     console.log("Username is: "+ currentUsername);
 
-    fetch('http://localhost/Team22/API/groups?GroupID='+groupID)
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups?GroupID='+groupID)
         .then(response => {
             //console.log('Response:', response);
             return response.text(); // Get the response text
@@ -137,7 +137,7 @@ session_start();
             console.error('Error:', error);
         });
     
-    fetch('http://localhost/Team22/API/usergroups?GroupID='+groupID)
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups?GroupID='+groupID)
         .then(response => {
             //console.log('Response:', response);
             return response.text(); // Get the response text
@@ -149,7 +149,7 @@ session_start();
             //console.log('Data:', data);
             //content="";
 
-            fetch('http://localhost/Team22/API/users')
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                 .then(response => {
                     //console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -221,7 +221,7 @@ session_start();
                 console.log("NOTHING TYPED");
                 resultsBox.innerHTML = ""
             }else{
-                fetch('http://localhost/Team22/API/users')
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -232,7 +232,7 @@ session_start();
                             const users = JSON.parse(text);
                             console.log('Data:', users);
 
-                            fetch('http://localhost/Team22/API/userfriends')
+                            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                             .then(response => {
                                 console.log('Response:', response);
                                 return response.text(); // Get the response text
@@ -378,7 +378,7 @@ session_start();
                 alert("name already added");
             }else{
                 //fetch('http://localhost/API/users?Username='+addname)
-                fetch('http://localhost/Team22/API/users?Username='+addname)
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+addname)
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -397,7 +397,7 @@ session_start();
 
                                 //POST
                                 //---------------------------------------------------------------------------
-                                const endpoint = 'http://localhost/Team22/API/usergroups';
+                                const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
                                 const requestData = {
                                     UserID: data[0]['UserID'].toString(),
@@ -482,7 +482,7 @@ session_start();
             
             document.getElementById("groupList").innerHTML = "";
 
-            fetch('http://localhost/Team22/API/usergroups?GroupID='+groupID)
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups?GroupID='+groupID)
             .then(response => {
                 //console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -494,7 +494,7 @@ session_start();
                 //console.log('Data:', data);
                 //content="";
 
-                fetch('http://localhost/Team22/API/users')
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                     .then(response => {
                         //console.log('Response:', response);
                         return response.text(); // Get the response text
@@ -565,7 +565,7 @@ session_start();
             // let name = text.replace('remove','');
             // console.log("Name is: " + name);
 
-            fetch('http://localhost/Team22/API/users?Username='+name)
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+name)
                 .then(response => {
                     console.log('Response:', response);
                     return response.text(); // Get the response text
@@ -579,7 +579,7 @@ session_start();
                     console.log("Friend userID is: "+data[0]['UserID']);
 
                     //DELETE--------------------------------------------------------
-                    const endpoint = 'http://localhost/Team22/API/usergroups';
+                    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
                     const requestData = {
                         GroupID: groupID,
@@ -638,7 +638,7 @@ session_start();
         if (groupName == "") {
             alert("Please enter a Group Name")
         } else {
-            const endpoint = 'http://localhost/Team22/API/groups';
+            const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groups';
 
             const requestData = {
                 groupID: groupID,
@@ -683,7 +683,7 @@ session_start();
 
     function leaveGroup() {
         if (confirm("Are you sure you want to leave group?") == true) {
-        const endpoint = 'http://localhost/Team22/API/usergroups';
+        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
             const requestData = {
                 GroupID: groupID,

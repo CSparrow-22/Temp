@@ -56,7 +56,7 @@ function showAllGroups() {
 
     allGroupchatsFlag = true;
 
-    fetch('http://localhost/Team22/API/groups')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -67,7 +67,7 @@ function showAllGroups() {
         const groups = JSON.parse(text);
         console.log('Data:', groups);
 
-        fetch('http://localhost/Team22/API/usergroups')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -123,7 +123,7 @@ function showUnreadGroups() {
 
     allGroupchatsFlag = false;
 
-    fetch('http://localhost/Team22/API/groups')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -134,7 +134,7 @@ function showUnreadGroups() {
         const groups = JSON.parse(text);
         console.log('Data:', groups);
 
-        fetch('http://localhost/Team22/API/usergroups')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -348,7 +348,7 @@ function showGroups(groupchats) {
 
 function search() {
 
-    fetch('http://localhost/Team22/API/groups')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -359,7 +359,7 @@ function search() {
         const groups = JSON.parse(text);
         console.log('Data:', groups);
 
-        fetch('http://localhost/Team22/API/usergroups')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -457,7 +457,7 @@ function redirect_toMessages(ID){
 
 
 function is_newChat(filters) {
-    let url = 'http://localhost/Team22/API/usergroups';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -496,7 +496,7 @@ function set_isNewChatforMe(ID){
     // Firstly set isnewChat as false for me
 
     // Define the endpoint URL
-    const endpoint = 'http://localhost/Team22/API/usergroups';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
 
     // Define the data you want to update (e.g., groupName and lastSender)
@@ -542,7 +542,7 @@ function set_isNewChatforMe(ID){
 
 
 function get_lastSender(filters) {
-    let url = 'http://localhost/Team22/API/groups';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groups';
 
     // Append filters to the URL if provided
     if (filters) {
@@ -573,7 +573,7 @@ function update_lastSendersOpen(groupID) {
             console.log(lastSender);
 
             // Define the endpoint URL
-            const endpoint = 'http://localhost/Team22/API/usergroups';
+            const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
             console.log("UPDATING");
             // Define the data you want to update

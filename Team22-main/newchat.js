@@ -3,7 +3,7 @@ function backButton() {
 }
 
 function showAllFriends() {
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -14,7 +14,7 @@ function showAllFriends() {
         const chats = JSON.parse(text);
         console.log('Data:', chats);
 
-        fetch('http://localhost/Team22/API/userfriends')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -25,7 +25,7 @@ function showAllFriends() {
             const userfriends = JSON.parse(text);
             console.log('Data:', userfriends);
 
-            fetch('http://localhost/Team22/API/users')    
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')    
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -148,7 +148,7 @@ function showFriends(friends) {
 }
 
 function searchFriends() {
-    fetch('http://localhost/Team22/API/chats')    
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
     .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
@@ -159,7 +159,7 @@ function searchFriends() {
         const chats = JSON.parse(text);
         console.log('Data:', chats);
 
-        fetch('http://localhost/Team22/API/userfriends')    
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')    
         .then(response => {
             console.log('Response:', response);
             return response.text(); // Get the response text
@@ -170,7 +170,7 @@ function searchFriends() {
             const userfriends = JSON.parse(text);
             console.log('Data:', userfriends);
 
-            fetch('http://localhost/Team22/API/users')    
+            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')    
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -246,7 +246,7 @@ function searchFriends() {
 
 
 function createNewChat(UserID) {
-    const endpoint = 'http://localhost/Team22/API/chats';
+    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
         // Get the current date and time
         var now = new Date();
@@ -294,7 +294,7 @@ function createNewChat(UserID) {
                 // Handle the response data as needed
                 console.log("post request works");
                 
-                fetch('http://localhost/Team22/API/chats')    
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')    
                 .then(response => {
                     console.log('Response:', response);
                     return response.text(); // Get the response text

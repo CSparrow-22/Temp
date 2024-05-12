@@ -112,7 +112,7 @@ session_start();
             resultsBox.innerHTML = ""
         }
 
-    fetch('http://localhost/Team22/API/users')
+    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -146,7 +146,7 @@ session_start();
                 console.log("NOTHING TYPED");
                 resultsBox.innerHTML = ""
             }else{
-                fetch('http://localhost/Team22/API/users')
+                fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -157,7 +157,7 @@ session_start();
                             const users = JSON.parse(text);
                             console.log('Data:', users);
 
-                            fetch('http://localhost/Team22/API/userfriends')
+                            fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
                             .then(response => {
                                 console.log('Response:', response);
                                 return response.text(); // Get the response text
@@ -261,7 +261,7 @@ session_start();
                     alert("User already added");
                 }else{
                     
-                    fetch('http://localhost/Team22/API/users?Username='+addname)
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users?Username='+addname)
                             .then(response => {
                                 console.log('Response:', response);
                                 return response.text(); // Get the response text
@@ -314,7 +314,7 @@ session_start();
             alert("A minimum of 3 members are required to make a group");
         } else {
             //--------------------------------------
-            const endpoint = 'http://localhost/Team22/API/groups';
+            const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/groups';
 
             var now = new Date();
             var formattedDateTime = now.toISOString().slice(0, 19).replace('T', ' ');
@@ -362,7 +362,7 @@ session_start();
                     console.log("post request works");
 
                     //---------------------------------------------------------------------------
-                    fetch('http://localhost/Team22/API/groups?GroupName='+groupTitle)
+                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/groups?GroupName='+groupTitle)
                         .then(response => {
                             console.log('Response:', response);
                             return response.text(); // Get the response text
@@ -425,7 +425,7 @@ session_start();
         }
 
         membersList = []
-        fetch('http://localhost/Team22/API/users')
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/users')
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
@@ -454,7 +454,7 @@ session_start();
                     console.log("Group id is:"+groupID);
                     
                 //---------
-                    const endpoint = 'http://localhost/Team22/API/usergroups';
+                    const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
                     const requestData = {
                         UserID: membersList[i]['UserID'],
