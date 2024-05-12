@@ -262,7 +262,7 @@
       <?php
 
 // Hardcoded JSON data
-$url = 'http://localhost/API/userprojects';
+$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/userprojects';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
