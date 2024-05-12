@@ -294,6 +294,13 @@
          <?php
 if($_SESSION['time'] != ''){
 	echo "Session active";
+	echo $_SESSION['time'];
+
+	$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
+
+
+
+	
 } else {
 	echo "Session not active";
 }
