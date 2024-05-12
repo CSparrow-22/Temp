@@ -14,7 +14,7 @@ $request_uri = rtrim($request_uri, '/'); // Remove trailing slash
 
 // Split the path into segments
 $path_segments = explode('/', $request_uri);
-$endpoint = $path_segments[5];
+$endpoint = $path_segments[3];
 
 
 // Check if the user is authenticated and authorized
@@ -320,9 +320,10 @@ switch ($endpoint) {
 
                 $userId = $_GET['UserID'];
                 $groupId = $_GET['GroupID'];
+                $is_newChat = $_GET['is_newChat'];
 
-                $stmt = $pdo->prepare("INSERT INTO usergroups (UserID, GroupID) VALUES (?, ?)");
-                $stmt->execute([$userId, $groupId]);
+                $stmt = $pdo->prepare("INSERT INTO usergroups (UserID, GroupID, is_newChat) VALUES (?, ?, ?)");
+                $stmt->execute([$userId, $groupId, $is_newChat]);
 
                 $response = [
                     'message' => 'User-group mapping created successfully'
@@ -620,11 +621,14 @@ switch ($endpoint) {
                 // $groupDescription = $data['groupDescription'];
 
                 $groupName = $_GET['GroupName'];
+                $lastSender = $_GET['lastSender'];
+                $lastEvent = $_GET['lastEvent'];
+                $colour = $_GET['colour'];
                 //$groupDescription = $_GET['GroupDescription'];
 
 
-                $stmt = $pdo->prepare("INSERT INTO groups (GroupName) VALUES (?)");
-                $stmt->execute([$groupName]);
+                $stmt = $pdo->prepare("INSERT INTO groups (GroupName, lastSender, lastEvent, colour) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$groupName, $lastSender, $lastEvent, $colour]);
                 $insertedId = $pdo->lastInsertId();
 
                 $response = [
@@ -1068,7 +1072,7 @@ function authorize($endpoint, $method) {
         'userfriends'=> ['POST','PUT','DELETE'],
         'messages' => ['POST'],
         'usergroups'=>['POST','DELETE'],
-        'groups'=>['POST'],
+        'groups'=>['POST','PUT'],
         'groupmessages' => ['POST','PUT']
     ];
 
