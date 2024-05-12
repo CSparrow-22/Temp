@@ -300,9 +300,10 @@ $response = curl_exec($ch);
 curl_close($ch);
 
 $data = json_decode($response, true);
+echo "------";
 echo $data;
 echo $_SESSION['time'];
-
+echo "------";
 
 // Create table
 if($_SESSION['time'] != ''){
