@@ -8,7 +8,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friends</title>
+    <title>Edit Groupchat</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="chatstyle.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -33,7 +33,7 @@ session_start();
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
                             <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
-                            <form class="sidebar-form">
+                            <form class="sidebar-form" action="sign in.php">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
                         </div>
@@ -58,7 +58,7 @@ session_start();
                     <div class="search-container">
                         <div class="search-container" style="display:flex;align-items:center">
                             <div style="padding-right:10px">
-                                <input class="search-bar" id="title-search-bar" placeholder="Group Name" required></input>
+                                <input class="search-bar" id="title-search-bar" placeholder="Group Name" required style="font-weight:bold"></input>
                             </div>
                             
                             <button class="filter-button" id="save-group-name" onclick="saveGroupName()">Save</button>
@@ -90,7 +90,7 @@ session_start();
                 </div>
 
                 <div class="card" style="text-align:center">
-                    <button class="leave-group-button" style="width:150px;font-weight:bold" onclick="">
+                    <button class="leave-group-button" style="width:150px;font-weight:bold" onclick="leaveGroup()">
                         <i class="bi bi-box-arrow-left" style="padding-right:5px"></i>
                     Leave Group</button>
                 </div>
@@ -229,16 +229,69 @@ session_start();
                         .then(text => {
                             console.log('Response Text:', text); // Log the response text
                             // Attempt to parse the response text as JSON
-                            const data = JSON.parse(text);
-                            console.log('Data:', data);
-                            content="";
-                            data.forEach(item=>{
-                                if (item.Username.toLowerCase().includes(input.toLowerCase())){
-                                    content += "<li onclick=selectInput(this)>"+item.Username+"</li>";
+                            const users = JSON.parse(text);
+                            console.log('Data:', users);
+
+                            fetch('http://localhost/Team22/API/userfriends')
+                            .then(response => {
+                                console.log('Response:', response);
+                                return response.text(); // Get the response text
+                            })
+                            .then(text => {
+                                console.log('Response Text:', text); // Log the response text
+                                // Attempt to parse the response text as JSON
+                                const userfriends = JSON.parse(text);
+                                console.log('Data:', userfriends);
+
+                                var userfriends1 = [];
+                                var userfriends2 = [];
+
+                                for (var i = 0; i < userfriends.length; i++) {
+                                    if (userfriends[i]['userid'] == userID) {
+                                        userfriends1.push(userfriends[i]);
+                                    } else if (userfriends[i]['friendsid'] == userID) {
+                                        userfriends2.push(userfriends[i]);
+                                    }
                                 }
+
+
+                                var friends = [];
+
+                                for (var i = 0; i < userfriends1.length; i++) {
+                                    for(var j = 0; j < users.length; j++) {
+                                        if (users[j]['UserID'] == userfriends1[i]['friendsid']) {
+                                            userfriends1[i]['Username'] = users[j]['Username'];
+                                        }
+                                    }
+                                    friends.push(userfriends1[i]);
+                                }
+
+                                for (var i = 0; i < userfriends2.length; i++) {
+                                    for(var j = 0; j < users.length; j++) {
+                                        if (users[j]['UserID'] == userfriends2[i]['userid']) {
+                                            userfriends2[i]['Username'] = users[j]['Username'];
+                                        }
+                                    }
+                                    friends.push(userfriends2[i]);
+                                }
+
+                                content="";
+                                friends.forEach(item=>{
+                                    if (item.Username.toLowerCase().includes(input.toLowerCase())){
+                                        content += "<li onclick=selectInput(this)>"+item.Username+"</li>";
+                                    }
+                                });
+                                content = "<ul>"+content+"</ul>";
+                                $(".results-box").html(content);
+
+                                
+
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
                             });
-                            content = "<ul>"+content+"</ul>";
-                            $(".results-box").html(content);
+
+                            
 
                         })
                         .catch(error => {
@@ -294,6 +347,7 @@ session_start();
     function addName() {
             //buttonfunc is a function that adds the name entered in input box 'members-entry' and displays it in 'team-members- as a list
             const addname = document.getElementById("search-bar").value
+            console.log(addname)
             const listnames = document.getElementById("groupList")
             const listItems = listnames.getElementsByTagName("li")
 
@@ -305,8 +359,8 @@ session_start();
                 //for loop goes through the current team members
 
                 //Line below ensures that the string only contains the name
-                const thename = listItems[i].textContent.replace("remove", "")
-
+                const thename = listItems[i].textContent.replace("Remove", "")
+                console.log("LI: " + thename);
 
                 if (thename === addname) {
                     //if name entered is already a team member then duplicate is set to true
@@ -336,7 +390,7 @@ session_start();
                             //console.log('Data:', data);
                             console.log("data length:"+data.length);
                             if (data.length==0){
-                                alert("name entered must be in database");
+                                alert("User not found");
                             }else{
                                 console.log("Friend username is: "+data[0]['Username']);
                                 console.log("Friend userID is: "+data[0]['UserID']);
@@ -347,7 +401,8 @@ session_start();
 
                                 const requestData = {
                                     UserID: data[0]['UserID'].toString(),
-                                    GroupID: groupID
+                                    GroupID: groupID,
+                                    is_newChat: 1
                                 };
 
                                 // Convert the request data to a query string
@@ -375,7 +430,7 @@ session_start();
                                     })
                                     .then(data1 => {
                                         console.log('Response data:', data1);
-                                        alert("They have been added to the group");
+                                        alert("Member Added");
                                         content = "<li class='people-list-items'><div class='members-list-container'><div class='members-list-name'>"+data[0]['Username']+"</div><div class='members-list-button'><button class='remove-button' type='button' onclick='removeFriend(this,true)'>Remove</button></div></div></li>";
                                         listNames.innerHTML += content;
                                         // Handle the response data as needed
@@ -482,11 +537,13 @@ session_start();
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            
 
         }
     
 
         function removeFriend(element){
+            if (confirm("Are you sure you want to remove this user?") == true) {
             console.log("REMOVE FROM GROUP FUNC ---------------------");
             const urlParams = new URLSearchParams(window.location.search)
 
@@ -555,7 +612,7 @@ session_start();
                         })
                         .then(data => {
                             console.log('Response data:', data);
-                            alert("removed successfully");
+                            alert("Member Removed");
                             removeItem(element);
                             // Handle the response data as needed
                         })
@@ -571,8 +628,108 @@ session_start();
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            }
         }
 
+
+    function saveGroupName() {
+        var groupName = document.getElementById("title-search-bar").value
+
+        if (groupName == "") {
+            alert("Please enter a Group Name")
+        } else {
+            const endpoint = 'http://localhost/Team22/API/groups';
+
+            const requestData = {
+                groupID: groupID,
+                groupName:groupName
+            };
+            
+            // Convert the request data to a query string
+            const queryParams = new URLSearchParams(requestData).toString();
+            
+            // Append the group ID to the endpoint URL
+            const requestUrl = `${endpoint}?${queryParams}`;
+            
+            // Define the request options
+            const requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-KEY': 'abc123' // Replace with a valid API key
+                }
+            };
+            
+            // Send the request
+            fetch(requestUrl, requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Request failed with status ' + response.status);
+                    }
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    // Handle the response data as needed
+                    alert("Group Name updated");
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle the error as needed
+                });
+                }
+    }
+
+    function leaveGroup() {
+        if (confirm("Are you sure you want to leave group?") == true) {
+        const endpoint = 'http://localhost/Team22/API/usergroups';
+
+            const requestData = {
+                GroupID: groupID,
+                UserID: userID
+            };
+
+            // Convert the request data to a query string
+            const queryParams = new URLSearchParams(requestData).toString();
+
+            // Append the query parameters to the endpoint URL
+            const requestUrl = `${endpoint}?${queryParams}`;
+
+            // Define the request options
+            const requestOptions = {
+                method: 'DELETE',
+                headers: {
+                    'X-API-KEY': 'abc123' // Replace with a valid API key
+                }
+            };
+
+            // Send the request
+            fetch(requestUrl, requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        
+                        return response.json();
+                    } else {
+                        throw new Error('Request failed with status ' + response.status);
+                    }
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    alert("You have left the group");
+                    window.location.href = "groupchats.php";
+                    
+                    // Handle the response data as needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle the error as needed
+                });
+            }
+    }
+
+
+    
         // disableMyFriendsButton();
         // setInterval(() => {
         //     generateRequestsNotification();

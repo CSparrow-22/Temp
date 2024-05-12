@@ -32,14 +32,15 @@ session_start()
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
                             <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
-                            <form class="sidebar-form">
-                                <button type="submit" class="logout-btn" onclick="logOut()">Log Out</button>
+                            <form class="sidebar-form" action="sign in.php">
+                                <button type="submit" class="logout-btn">Log Out</button>
                             </form>
                         </div>
         </aside>
 
         <main class="flex-1 p-6" id = "main">
 
+        
 
                 <div class="card">
                     <div style="display:flex;align-items:center">

@@ -25,6 +25,7 @@ sortByDate = (a,b) => {
     }
 }
 
+
 function disableAllGroupsButton() {
     document.getElementById("all-groups-button").disabled = true;
     document.getElementById("all-groups-button").style.background = "#77aafc";

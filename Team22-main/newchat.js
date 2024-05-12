@@ -332,17 +332,11 @@ function createNewChat(UserID) {
     
 }
 
+
 showAllFriends();
 
 /* TO DO LIST
+FIX GROUP MESSAGES DISPLAY ERROR WHEN MEMBER IS DELETED
+SLIGHT DISPLAY ISSUE SOMTIMES WITH MESSAGE BUBBLE ALIGNMENT
 
-LEAVE GROUP/ADD MEMEBERS
-- leave group deletes entry for that user and group in usergroups table and redirects user yo the groupchats page.
-
-
-POTENTIALLY FIX Delivered not becoming received bug for groupchats, only if time.
-
-ADD ALERTS THROUGHOUT WHERE APPROPRIATE
-
-ADD LOGOUT FUNCTIONALITY
 */

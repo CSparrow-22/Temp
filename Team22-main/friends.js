@@ -3,6 +3,7 @@ function showMyFriends() {
     cardHeader.textContent = "My Friends"; 
 }
 
+
 function showAddFriends() {
     const cardHeader = document.getElementById("friends-header");
     cardHeader.textContent = "Add Friends"; 

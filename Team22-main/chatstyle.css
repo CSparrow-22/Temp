@@ -350,7 +350,7 @@ tr {
 
 /* Contact Header*/
 .chat_header{
-    width: 100%;
+    
     height: 8vh;
 }
 
@@ -365,7 +365,9 @@ tr {
     padding-left: 20px;
     padding-right: 20px;
     display:flex;
+    width:100%;
     align-items: center;
+    white-space: nowrap;
 }
 
 .chat_name {
@@ -636,7 +638,7 @@ margin-top: 1rem !important;
     padding-left: 10px;
     width: 80%;
     background-color: #151515;
-    color: orange;
+    color: white;
     max-height: 90vh;
 }
 .create_message_area textarea::placeholder {
@@ -698,10 +700,11 @@ margin-top: 1rem !important;
 /*CSS FOR FRIENDS SECTION -------------------------------------- */
 .results-box {
     /* class for div that displays names from database */
-    position: absolute;
-    width: 30%;
+    /*position: absolute;*/
+    width: 100%;
     max-height: 200px;
-    overflow-y: scroll;
+    background-color: #151515;
+    /*overflow-y: scroll;*/
 }
 
 .results-box ul {
@@ -709,40 +712,48 @@ margin-top: 1rem !important;
 
     /* border-top: 1px solid #999; */
     padding: 5px 5px;
-    background: white;
+    background-color: #151515;
 }
 
 .results-box ul li {
     /* styling for displaying names from database */
     list-style: none;
-    border: 1px solid;
+    border-top: 1px solid #28282B;
     border-radius: 3px;
     height: 50px;
     
     padding: 5px 5px;
     cursor: pointer;
-    background-color: white;
+    background-color: #151515;
+    color: white;
+    font-weight: bold;
+    display:flex;
+    align-items: center;
+    padding-bottom: 7px;
 }
 
 .results-box ul li:hover{
-    background: grey;
+    background: #28282B;
 }
 
 #friendsList li {
-    /* styling for the names that are part of a team */
     list-style: none;
-    border: 1px solid;
+    border-top: 1px solid #28282B;
     border-radius: 3px;
-    height: 50px;
+    height: 60px;
+    padding-top: 5px;
     
     padding: 5px 5px;
     /*cursor: pointer;*/
     color:white;
+    font-weight: bold;
 
 }
 
+/*
 #friendsList li button {
     /* styling for the 'remove' button to remove a person from project */
+    /*
     color: white;
     background-color: red;
     padding: 5px 30px;
@@ -750,9 +761,11 @@ margin-top: 1rem !important;
     
     overflow: hidden;
     /* box-shadow: 0 4px var(--secondary-accent-color); */
+    /*
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     /* position: fixed; */
+    /*
     z-index: 1;
     text-align: center;
     border-radius: 30px;
@@ -762,23 +775,27 @@ margin-top: 1rem !important;
 #friendsList li button:hover {
     background-color: rgb(255, 80, 80);
 }
+*/
 
 
 #requestsList li {
-    /* styling for the names that are part of a team */
     list-style: none;
-    border: 1px solid;
+    border-top: 1px solid #28282B;
     border-radius: 3px;
-    height: 50px;
+    height: 60px;
+    padding-top: 5px;
     
     padding: 5px 5px;
     /*cursor: pointer;*/
     color:white;
+    font-weight: bold;
 
 }
 
+/*
 #requestsList li button {
     /* styling for the 'remove' button to remove a person from project */
+    /*
     color: white;
     background-color: red;
     padding: 5px 30px;
@@ -786,9 +803,11 @@ margin-top: 1rem !important;
     
     overflow: hidden;
     /* box-shadow: 0 4px var(--secondary-accent-color); */
+    /*
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     /* position: fixed; */
+    /*
     z-index: 1;
     text-align: center;
     border-radius: 30px;
@@ -802,6 +821,7 @@ margin-top: 1rem !important;
 #requestsList li button #acceptRequest{
     background-color: green;
 }
+*/
 
 
 
@@ -835,6 +855,23 @@ margin-top: 1rem !important;
 }
 
 .remove-button:hover {
+    background-color: #464647;
+}
+
+.accept-button {
+    background-color: #28282B;
+    color: white;
+    border: solid 1px green;
+    border-radius: 20px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.accept-button:hover {
     background-color: #464647;
 }
 
@@ -879,3 +916,19 @@ margin-top: 1rem !important;
     background-color: rgb(255, 80, 80);
 }
 */
+
+
+#sentRequestsList li {
+    /* styling for the names that are part of a team */
+    list-style: none;
+    border-top: 1px solid #28282B;
+    border-radius: 3px;
+    height: 60px;
+    padding-top: 5px;
+    
+    padding: 5px 5px;
+    /*cursor: pointer;*/
+    color:white;
+    font-weight: bold;
+
+}

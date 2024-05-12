@@ -19,6 +19,7 @@ function getURL_GroupID(){
 
 
 
+
 var textarea = document.getElementById('new_msg_area');
 var previousmessagesdiv = document.getElementById('previous_messages_area');
 var previousTextareaHeight = textarea.offsetHeight;
@@ -279,7 +280,7 @@ function sortByDateTime(a, b) {
 
 function showall_Messages(messagesarray){
     messagesarray.sort(sortByDateTime);
-
+    console.log(messagesarray)
 
     // before loading all messages- clear it first
     var allMessagesarea = document.querySelector('#all_messages');

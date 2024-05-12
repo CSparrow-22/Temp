@@ -31,8 +31,8 @@ session_start()
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
                             <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
-                            <form class="sidebar-form">
-                                <button type="submit" class="logout-btn" onclick="logOut()">Log Out</button>
+                            <form class="sidebar-form" action = "sign in.php">
+                                <button type="submit" class="logout-btn">Log Out</button>
                             </form>
                         </div>
         </aside>
@@ -85,6 +85,7 @@ session_start()
     const currentUser = <?php echo $_SESSION['userID'] ?>;
     console.log("User id is:"+currentUserID);
 </script>
+
 
 </body>
 </html>

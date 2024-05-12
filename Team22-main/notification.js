@@ -145,11 +145,6 @@ function generateRequestsNotification() {
 }
 
 
-function logOut() {
-    window.location.href = "sign%20in.php";
-}
-
-
 generateChatNotification();
 generateGroupchatNotification();
 
@@ -159,6 +154,7 @@ setInterval(() => {
     }, 1000);
 
 
+    
 
 fetch('http://localhost/Team22/API/users')
     .then(response => {

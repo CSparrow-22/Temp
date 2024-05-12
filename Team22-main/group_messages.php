@@ -7,7 +7,7 @@ session_start()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chats</title>
+    <title>Group Messages</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="chatstyle.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -32,7 +32,7 @@ session_start()
             
                         <div class="p-6 transition duration-500 ease-in-out transform">
                             <p class="mb-4 text-m" style="color:gray;text-align:center" id="user-logged-in"></p>
-                            <form class="sidebar-form">
+                            <form class="sidebar-form" action="sign in.php">
                                 <button type="submit" class="logout-btn">Log Out</button>
                             </form>
                         </div>
@@ -40,6 +40,7 @@ session_start()
    
 
 
+        
         <main class="flex-1 p-6" id="main">
         <div class="chat_area"> 
 
