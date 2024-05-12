@@ -297,6 +297,11 @@ $url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
+
+
+echo $resonse;
+
+
 curl_close($ch);
 
 $data = json_decode($response, true);
