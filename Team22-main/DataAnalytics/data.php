@@ -352,9 +352,7 @@ if(curl_errno($ch)) {
     } else {
         echo "Empty response from server.";
     }
-} else {
-    echo "Session variable 'time' is not set.";
-}
+} 
 ?>
 
 
