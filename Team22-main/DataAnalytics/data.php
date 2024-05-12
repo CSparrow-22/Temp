@@ -291,7 +291,7 @@
 
             <canvas class="my-4 w-100" id="myChart" width="137" height="57" style="display: block; box-sizing: border-box; height: 46px; width: 109px;"></canvas>
 
-            <?php
+<?php
 
 $url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
 $ch = curl_init($url);
@@ -318,12 +318,12 @@ if($_SESSION['time'] != ''){
     echo '<tbody>';
 
     foreach ($data as $row) {
-        echo '<tr>';
-        echo '<td>' . $row['firstname'] . '</td>';
-        echo '<td>' . $row['lastname'] . '</td>';
-        echo '<td>' . $row['team_number'] . '</td>';
-        echo '<td>' . $row['task_number'] . '</td>';
-        echo '</tr>';
+	echo '<tr>';
+	echo '<td>' . $row['firstname'] . '</td>';
+	echo '<td>' . $row['lastname'] . '</td>';
+	echo '<td>' . $row['team_number'] . '</td>';
+	echo '<td>' . $row['task_number'] . '</td>';
+	echo '</tr>';
     }
 
     echo '</tbody>';
