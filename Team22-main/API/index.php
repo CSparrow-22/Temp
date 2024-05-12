@@ -609,7 +609,7 @@ switch ($endpoint) {
             if (isset($_GET['GroupName'])) {
                 $filters[] = "GroupName = ?";
             }
-            $result = getWithFilters($pdo, $filters, "groups");
+            $result = getWithFilters($pdo, $filters, "`groups`");
             echo json_encode($result);
         }
         // Endpoint for creating a new group
