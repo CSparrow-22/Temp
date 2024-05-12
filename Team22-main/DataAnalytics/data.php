@@ -1,4 +1,4 @@
-<html lang="en" data-bs-theme="dark">
+cv<html lang="en" data-bs-theme="dark">
 	
 <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
 
@@ -292,6 +292,8 @@
             <canvas class="my-4 w-100" id="myChart" width="137" height="57" style="display: block; box-sizing: border-box; height: 46px; width: 109px;"></canvas>
 
             <?php
+echo "hi";
+
 
 $url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
 $ch = curl_init($url);
