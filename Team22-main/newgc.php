@@ -448,12 +448,15 @@ session_start();
                     }
                 })
 
+                const fetchRequests = []; // Array to store all fetch Promises
+
                 for (let i = 0; i < membersList.length; i++) {
                     console.log("-------------------------------------------")
                     console.log("For user: "+membersList[i].UserID);
                     console.log("Group id is:"+groupID);
                     
                 //---------
+                    //const endpoint = 'http://localhost/Team22/API/usergroups';
                     const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/usergroups';
 
                     const requestData = {
@@ -477,7 +480,7 @@ session_start();
                     };
 
                     // Send the request
-                    fetch(requestUrl, requestOptions)
+                    const fetchPromise = fetch(requestUrl, requestOptions)
                         .then(response => {
                             if (response.ok) {
                                 return response.json();
@@ -494,14 +497,24 @@ session_start();
                             console.error('Error:', error);
                             // Handle the error as needed
                         });
+                    fetchRequests.push(fetchPromise); // Store the fetch Promise
 
 
 
 
                 //--------------------
                     }
-                    alert("Group chat is created");
-                    window.location.href = 'group_messages.php?GroupID=' + groupID;
+                    Promise.all(fetchRequests)
+                        .then(() => {
+                            console.log("All fetch requests completed.");
+                            alert("Group chat is created");
+                            window.location.href = 'group_messages.php?GroupID=' + groupID;
+                        })
+                        .catch(error => {
+                            console.error('One or more fetch requests failed:', error);
+                        });
+                    // alert("Group chat is created");
+                    // window.location.href = 'group_messages.php?GroupID=' + groupID;
 
                 
                 
