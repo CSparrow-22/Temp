@@ -24,41 +24,35 @@
         // Your data processing and chart rendering logic goes here...
     })
     .catch(error => {
-        console.error('Error:', error);
-    });
+    console.error('Error:', error);
+});
 
-        console.log('Labels:', labels);
-        console.log('Values:', values);
-        // Graphs
-        const ctx = document.getElementById('myChart')
-        // eslint-disable-next-line no-unused-vars
-        const myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: values,
-              lineTension: 0,
-              backgroundColor: '#007bff',
-              borderColor: '#007bff',
-              borderWidth: 4,
-              pointBackgroundColor: '#007bff'
-            }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                boxPadding: 3
-              }
-            }
-          }
-        })
-
-      })
-
-
-
-})()
+console.log('Labels:', labels);
+console.log('Values:', values);
+// Graphs
+const ctx = document.getElementById('myChart')
+// eslint-disable-next-line no-unused-vars
+const myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      data: values,
+      lineTension: 0,
+      backgroundColor: '#007bff',
+      borderColor: '#007bff',
+      borderWidth: 4,
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        boxPadding: 3
+      }
+    }
+  }
+});
