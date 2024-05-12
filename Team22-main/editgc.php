@@ -402,7 +402,8 @@ session_start();
                                 const requestData = {
                                     UserID: data[0]['UserID'].toString(),
                                     GroupID: groupID,
-                                    is_newChat: 1
+                                    is_newChat: 1,
+                                    isOpened: 0
                                 };
 
                                 // Convert the request data to a query string
