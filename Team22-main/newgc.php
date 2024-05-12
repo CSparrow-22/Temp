@@ -462,7 +462,8 @@ session_start();
                     const requestData = {
                         UserID: membersList[i]['UserID'],
                         GroupID: groupID,
-                        is_newChat: 0
+                        is_newChat: 0,
+                        isOpened: 0
                     };
 
                     // Convert the request data to a query string
