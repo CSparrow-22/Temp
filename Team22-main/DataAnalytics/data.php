@@ -316,24 +316,37 @@
 
 
 <script>
-let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/activeemployees';
+    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/activeemployees';
 
-fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json(); // Parse the response as JSON
-    })
-    .then(data => {
-        console.log(data);
-        
-        
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-    });
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log(data);
 
+            var table = document.getElementsByClassName("table table-striped table-sm")[0]; // Accessing the first table with the specified class
+
+            // Loop through the employee data
+            for (var i = 0; i < data.length; i++) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = data[i]['firstname'];
+                cell2.innerHTML = data[i]['lastname'];
+                cell3.innerHTML = data[i]['team_number'];
+                cell4.innerHTML = data[i]['task_number'];
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
 </script>
 
 
