@@ -9,7 +9,7 @@
 ?>
     <script>
         <?php session_start();
-	echo var_dump($_SESSION);
+	
 
     
     if ((!isset($_SESSION['userID'])) || (!isset($_SESSION['userType']))) {
