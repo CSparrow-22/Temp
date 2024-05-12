@@ -3,7 +3,7 @@
 (() => {
   'use strict'
 
-  fetch('http://localhost/API/example')
+  fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/example')
       .then(response => {
         console.log('Response:', response);
         return response.text(); // Get the response text
