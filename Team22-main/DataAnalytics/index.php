@@ -46,7 +46,7 @@
         function loadScriptForAction(action) {
             switch (action) {
                 case 'data':
-                    loadScript('./dashboard.js');
+                    loadScript('./js/dashboard.js');
                     break;
                 case 'activity':
                     loadScript('./js/activityDashboard.js');
