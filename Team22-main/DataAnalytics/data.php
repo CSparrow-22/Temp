@@ -301,7 +301,7 @@ curl_close($ch);
 
 $data = json_decode($response, true);
 echo $data;
-echo "Session:" . ($_SESSION['time'];
+echo $_SESSION['time'];
 
 
 // Create table
