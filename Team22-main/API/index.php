@@ -321,9 +321,10 @@ switch ($endpoint) {
                 $userId = $_GET['UserID'];
                 $groupId = $_GET['GroupID'];
                 $is_newChat = $_GET['is_newChat'];
+                $isOpened = $_GET['isOpened'];
 
-                $stmt = $pdo->prepare("INSERT INTO usergroups (UserID, GroupID, is_newChat) VALUES (?, ?, ?)");
-                $stmt->execute([$userId, $groupId, $is_newChat]);
+                $stmt = $pdo->prepare("INSERT INTO usergroups (UserID, GroupID, is_newChat, isOpened) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$userId, $groupId, $is_newChat, $isOpened]);
 
                 $response = [
                     'message' => 'User-group mapping created successfully'
