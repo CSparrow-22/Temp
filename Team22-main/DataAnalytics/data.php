@@ -291,16 +291,29 @@
 
             <canvas class="my-4 w-100" id="myChart" width="137" height="57" style="display: block; box-sizing: border-box; height: 46px; width: 109px;"></canvas>
 
+
+
+            <h2>Recent Tasks Completed</h2>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Team Number</th>
+                            <th scope="col">Task Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table body content goes here -->
+                    </tbody>
+                </table>
+            </div>
+
+
          <?php
 if($_SESSION['time'] != ''){
 	echo "Session active";
-	echo $_SESSION['time'];
-
-	$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
-
-
-
-	
 } else {
 	echo "Session not active";
 }
@@ -349,6 +362,12 @@ if($_SESSION['time'] != ''){
 
 ?>
 
+
+
+<script>
+
+
+</script>
 
 
         </main>
