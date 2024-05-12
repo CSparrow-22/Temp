@@ -627,7 +627,7 @@ switch ($endpoint) {
                 //$groupDescription = $_GET['GroupDescription'];
 
 
-                $stmt = $pdo->prepare("INSERT INTO groups (GroupName, lastSender, lastEvent, colour) VALUES (?, ?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO `groups` (GroupName, lastSender, lastEvent, colour) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$groupName, $lastSender, $lastEvent, $colour]);
                 $insertedId = $pdo->lastInsertId();
 
@@ -668,7 +668,7 @@ switch ($endpoint) {
         
                     $updateValues[] = $groupID;
         
-                    $stmt = $pdo->prepare("UPDATE groups SET " . implode(", ", $updateFields) . " WHERE GroupID = ?");
+                    $stmt = $pdo->prepare("UPDATE `groups` SET " . implode(", ", $updateFields) . " WHERE GroupID = ?");
                     $stmt->execute($updateValues);
 
                     if ($stmt->rowCount() > 0) {
