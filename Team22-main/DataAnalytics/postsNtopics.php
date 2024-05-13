@@ -307,7 +307,7 @@ echo "
 
 
 
-        fetch('http://localhost/API/".$_SESSION['time']."weeklydata')
+        fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/".$_SESSION['time']."weeklydata')
             .then(response => {
                 console.log('Response:', response);
                 return response.text(); // Get the response text
