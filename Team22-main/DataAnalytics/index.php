@@ -30,7 +30,6 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.getElementById("content").innerHTML = xhr.responseText;
-                    loadScriptForAction(action); // Load script after updating content
                     resetHTMLLangAttribute();
                 }
             };
@@ -43,21 +42,6 @@
             document.head.appendChild(script);
         }
 
-        function loadScriptForAction(action) {
-            switch (action) {
-                case 'data':
-                    loadScript('./js/dashboard.js');
-                    break;
-                case 'activity':
-                    loadScript('./js/activityDashboard.js');
-                    break;
-                case 'postsNtopics':
-                    loadScript('./js/postsNtopics.js');
-                    break;
-                default:
-                    break;
-            }
-        }
 
         function resetHTMLLangAttribute() {
             document.documentElement.lang = "en";
