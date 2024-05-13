@@ -260,7 +260,7 @@
 
 <?php
 
-$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/employees';
+$url = 'http://localhost/API/employees';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
@@ -271,7 +271,7 @@ $employees = json_decode($response, true);
 
 
 //Other data
-$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/users';
+$url = 'http://localhost/API/users';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);

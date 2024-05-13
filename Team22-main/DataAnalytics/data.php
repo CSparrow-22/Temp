@@ -211,7 +211,10 @@
                 <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" onclick="updateContent('data')"  style = "cursor: pointer;">
+                        <form id="pageForm" method="POST" action="./">
+                            <input type="hidden" name="page" id="pageInput" value="data">
+                        </form>
+                            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" onclick="getElementById('pageForm').submit()"  style = "cursor: pointer;">
                                 <svg class="bi"><use xlink:href="#graph-up"></use></svg>
                                 Overall Productivity
                             </a>
@@ -291,63 +294,47 @@
 
             <canvas class="my-4 w-100" id="myChart" width="137" height="57" style="display: block; box-sizing: border-box; height: 46px; width: 109px;"></canvas>
 
+            <?php
+
+$url = 'http://localhost/API/'.$_SESSION['time'].'employees';
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+$data = json_decode($response, true);
 
 
-            <h2>Recent Tasks Completed</h2>
-            <div class="table-responsive small">
-                <table class="table table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Team Number</th>
-                            <th scope="col">Task Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Table body content goes here -->
-                    </tbody>
-                </table>
-            </div>
+// Create table
+if($_SESSION['time'] != ''){
+    echo '<h2>Recent Tasks Completed</h2>';
+    echo '<div class="table-responsive small">';
+    echo '<table class="table table-striped table-sm">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th scope="col">First Name</th>';
+    echo '<th scope="col">Last Name</th>';
+    echo '<th scope="col">Team Number</th>';
+    echo '<th scope="col">Task Number</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
 
+    foreach ($data as $row) {
+        echo '<tr>';
+        echo '<td>' . $row['firstname'] . '</td>';
+        echo '<td>' . $row['lastname'] . '</td>';
+        echo '<td>' . $row['team_number'] . '</td>';
+        echo '<td>' . $row['task_number'] . '</td>';
+        echo '</tr>';
+    }
 
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>';
+}
 
-
-
-
-<script>
-    let url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/activeemployees';
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(data => {
-            console.log(data);
-
-            var table = document.getElementsByClassName("table table-striped table-sm")[0]; // Accessing the first table with the specified class
-
-            // Loop through the employee data
-            for (var i = 0; i < data.length; i++) {
-                var row = table.insertRow();
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
-
-                cell1.innerHTML = data[i]['firstname'];
-                cell2.innerHTML = data[i]['lastname'];
-                cell3.innerHTML = data[i]['team_number'];
-                cell4.innerHTML = data[i]['task_number'];
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-</script>
+?>
 
 
         </main>
@@ -364,7 +351,7 @@ echo "
   'use strict'
 
 
-    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/".$_SESSION['time']."example')
+    fetch('http://localhost/API/".$_SESSION['time']."example')
     .then(response => response.json())
     .then(data => {
         // Graphs

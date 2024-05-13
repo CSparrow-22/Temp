@@ -316,9 +316,9 @@
                 <?php
 
 // API endpoints
-$userTasksUrl = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'usertasks';
-$tasksUrl = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'tasks';
-$userProjectsUrl = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'userprojects';
+$userTasksUrl = 'http://localhost/API/'.$_SESSION['time'].'usertasks';
+$tasksUrl = 'http://localhost/API/'.$_SESSION['time'].'tasks';
+$userProjectsUrl = 'http://localhost/API/'.$_SESSION['time'].'userprojects';
 
 // Fetch user projects
 $ch = curl_init($userProjectsUrl);
