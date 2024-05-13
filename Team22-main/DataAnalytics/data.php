@@ -211,10 +211,7 @@
                 <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                        <form id="pageForm" method="POST" action="./">
-                            <input type="hidden" name="page" id="pageInput" value="data">
-                        </form>
-                            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" onclick="getElementById('pageForm').submit()"  style = "cursor: pointer;">
+                            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" onclick="updateContent('data')"  style = "cursor: pointer;">
                                 <svg class="bi"><use xlink:href="#graph-up"></use></svg>
                                 Overall Productivity
                             </a>
@@ -296,7 +293,7 @@
 
             <?php
 
-$url = 'http://34.142.47.100/Temp/Team22-main/API/index.php/'.$_SESSION['time'].'employees';
+$url = 'http://localhost/API/'.$_SESSION['time'].'employees';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
@@ -351,7 +348,7 @@ echo "
   'use strict'
 
 
-    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/".$_SESSION['time']."example')
+    fetch('http://localhost/API/".$_SESSION['time']."example')
     .then(response => response.json())
     .then(data => {
         // Graphs
