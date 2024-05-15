@@ -233,6 +233,89 @@
 
                 if ($role === "TL") {
                     include 'TLindividualEmp.php';
+			echo "
+<script>
+(() => {
+  'use strict'
+ 
+
+  // Graphs
+  const ctx1 = document.getElementById('myChart')
+  const myChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels: [
+        'Complete',
+        'In Progress',
+        'Overdue'
+      ],
+      datasets: [{
+        data: [
+          $complete,
+          $ongoing,
+          $overdue
+        ],
+        backgroundColor: [
+          '#c8e1cc',   
+          '#007bff',
+          '#FF6961'     
+        ],
+        borderColor: 'white',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          boxPadding: 3
+        }
+      }
+    }
+  })
+
+  const ctx2 = document.getElementById('myChart2')
+  const myChart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: [
+        'Hours Complete',
+        'Hours In Progress',
+		'Hours Overdue'
+      ],
+      datasets: [{
+        data: [
+          $completeH,
+          $ongoingH,
+          $overdueH
+        ],
+        backgroundColor: [
+          '#c8e1cc',   
+          '#007bff',
+          '#FF6961'     
+        ],
+        borderColor: 'white',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          boxPadding: 3
+        }
+      }
+    }
+  })
+})()
+</script>
+";
                 } else if ($role == "User") {
                     include 'EMPindividualEmp.php';
 
