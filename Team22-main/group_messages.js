@@ -421,12 +421,7 @@ function addsingle_Message(message, senderID, date) {
     if (senderID == currentUserID) {
         newMessage.classList.add('from-me');
     } else {
-        // Search through the groupusersArray for the username belonging to whoever sent this message
-        for (let i = 0; i < groupusersArray.length; i++) {
-            if (groupusersArray[i]['userID'] == senderID) {
-                var newnameLabel = addname_Label(groupusersArray[i]['username']);
-            }
-        }
+        var newnameLabel = addname_Label(findUsername(groupusersArray, senderID));
         newMessage.classList.add('group-from-them');
     }
 
