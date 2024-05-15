@@ -173,7 +173,6 @@
         } else if ($role == "Manager") {
             include 'individualEmp.php';
         }
-        include 'individualEmp.php';
     } else if (isset($_POST['action'])) {
         $action = $_POST['action'];
         switch ($action) {
