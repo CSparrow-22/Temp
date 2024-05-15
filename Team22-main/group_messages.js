@@ -404,10 +404,10 @@ function showall_Messages(messagesarray) {
 
         if (date != lastdate) { // 'if this is a new day'
             addDatebanner(date);
+            lastdate = date;
         }
 
         addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], date);
-        lastdate = date;
     }
 
     scrollmessages_toBottom();
@@ -427,45 +427,40 @@ function addsingle_Message(message, senderID, date) {
                 var newnameLabel = addname_Label(groupusersArray[i]['username']);
             }
         }
-
         newMessage.classList.add('group-from-them');
     }
 
+    var tempstring = "#imessage" + date;
+    var imessageDiv = document.querySelector(tempstring);
+
     // Create a new imessage div if it's a new message for the day
-    if (date != lastdate) {
-        var new_imessageDiv = document.createElement('div');
-        new_imessageDiv.className = "imessage";
-        new_imessageDiv.id = "imessage" + date;
+    if (!imessageDiv) {
+        imessageDiv = document.createElement('div');
+        imessageDiv.className = "imessage";
+        imessageDiv.id = "imessage" + date;
 
         var all_messages_container = document.querySelector('.all_messages_container');
-        all_messages_container.appendChild(new_imessageDiv);
+        all_messages_container.appendChild(imessageDiv);
 
         if (senderID != currentUserID) {
             // Append nameLabel only for messages from others
-            new_imessageDiv.appendChild(newnameLabel);
-        }
-
-        new_imessageDiv.appendChild(newMessage);
-
-        lastdate = date;
-    } else {
-        var tempstring = "#imessage" + date;
-        var imessageDiv = document.querySelector(tempstring);
-
-        imessageDiv.appendChild(newMessage);
-
-        // Apply width styling only if the nameLabel exists
-        if (newnameLabel) {
-            var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
-            var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
-
-            if (default_messagewidth > default_nameLabelwidth) {
-                newnameLabel.style.width = default_messagewidth + "px";
-            } else {
-                newMessage.style.width = default_nameLabelwidth + "px";
-            }
+            imessageDiv.appendChild(newnameLabel);
         }
     }
+
+    imessageDiv.appendChild(newMessage);
+
+    // Add event listener to handle width styling after the message is added to the DOM
+    newMessage.addEventListener('DOMNodeInserted', function() {
+        var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
+        var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
+
+        if (default_messagewidth > default_nameLabelwidth) {
+            newnameLabel.style.width = default_messagewidth + "px";
+        } else {
+            newMessage.style.width = default_nameLabelwidth + "px";
+        }
+    });
 }
 
 
