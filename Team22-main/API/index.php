@@ -842,6 +842,32 @@ switch ($endpoint) {
                 echo json_encode(["error" => "Access denied"]);
             }
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            if ($is_authenticated && $is_authorized || TRUE) { // Remove || TRUE once you've implemented authentication and authorization
+                // Handle the DELETE request for deleting a user-friend record
+                $chatID = $_GET['chatID'];
+
+                // Check if the required parameters are present
+                if (isset($chatID)) {
+                    $stmt = $pdo->prepare("DELETE FROM chats WHERE chatID = ?");
+                    $stmt->execute([$chatID]);
+
+                    if ($stmt->rowCount() > 0) {
+                        $response = ['message' => 'Chat record deleted successfully'];
+                        echo json_encode($response);
+                    } else {
+                        http_response_code(404);
+                        echo json_encode(["error" => "Chat record not found"]);
+                    }
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["error" => "Missing or invalid parameters in the request"]);
+                }
+            } else {
+                http_response_code(403);
+                echo json_encode(["error" => "Access denied"]);
+            }
+        }
         break;
 
 //useables
@@ -1068,7 +1094,7 @@ function authenticate() {
 
 function authorize($endpoint, $method) {
     $authorized_endpoints = [
-        'chats' => ['POST'],
+        'chats' => ['POST', 'DELETE'],
         'users' => ['POST'],
         'userfriends'=> ['POST','PUT','DELETE'],
         'messages' => ['POST'],
