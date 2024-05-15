@@ -278,37 +278,37 @@ function sortByDateTime(a, b) {
 
 
 
-// function showall_Messages(messagesarray){
-//     messagesarray.sort(sortByDateTime);
-//     console.log(messagesarray)
+function showall_Messages(messagesarray){
+    messagesarray.sort(sortByDateTime);
+    console.log(messagesarray)
 
-//     // before loading all messages- clear it first
-//     var allMessagesarea = document.querySelector('#all_messages');
-//     allMessagesarea.innerHTML = "";
+    // before loading all messages- clear it first
+    var allMessagesarea = document.querySelector('#all_messages');
+    allMessagesarea.innerHTML = "";
 
-//     let lastdate;
+    let lastdate;
 
-//     for (var i = 0; i < messagesarray.length; i++) {
+    for (var i = 0; i < messagesarray.length; i++) {
 
-//             let date = messagesarray[i]['SentTime'].split(' ')[0];
+            let date = messagesarray[i]['SentTime'].split(' ')[0];
 
-//             if (date != lastdate){  // 'if this is a new day'
-//                 addDatebanner(date);
+            if (date != lastdate){  // 'if this is a new day'
+                addDatebanner(date);
 
-//                 addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], true, date);
+                addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], true, date);
 
 
-//             } else{
+            } else{
 
-//                 addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], false, date);
-//             }
+                addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], false, date);
+            }
 
-//             lastdate = date;          
+            lastdate = date;          
         
-//     }
+    }
 
-//     scrollmessages_toBottom();
-// }
+    scrollmessages_toBottom();
+}
 
 
 
@@ -322,141 +322,74 @@ function addname_Label (idSentBy){
 
 
 
-// function addsingle_Message(message, senderID, makenewImessage, date) {
-//     var newMessage = document.createElement('p');
-//     newMessage.textContent = message;
-
-//     // Determine whether the message is from you or not
-//     if (senderID == currentUserID) {
-//         newMessage.classList.add('from-me');
-
-
-//         if (makenewImessage == true) {
-//             var new_imessageDiv = document.createElement('div');
-//             new_imessageDiv.className = "imessage";
-//             new_imessageDiv.id = "imessage" + date;
-
-//             var all_messages_container = document.querySelector('.all_messages_container');
-//             all_messages_container.appendChild(new_imessageDiv);
-//             new_imessageDiv.appendChild(newMessage);
-//         } else {
-//             var tempstring = "#imessage" + date;
-//             var imessageDiv = document.querySelector(tempstring);
-//             imessageDiv.appendChild(newMessage);
-//         }
-
-
-
-//     } else {
-//        // search through the groupusersArray for the username belonging to whoever sent this message
-//         for (let i = 0; i < groupusersArray.length; i++) {
-//             if (groupusersArray[i]['userID'] == senderID){
-//                 var newnameLabel = addname_Label(groupusersArray[i]['username']);
-//             }
-     
-//         }
-
-//         newMessage.classList.add('group-from-them');
-
-//         if (makenewImessage == true) {
-//             var new_imessageDiv = document.createElement('div');
-//             new_imessageDiv.className = "imessage";
-//             new_imessageDiv.id = "imessage" + date;
-
-//             var all_messages_container = document.querySelector('.all_messages_container');
-//             all_messages_container.appendChild(new_imessageDiv);
-
-//             new_imessageDiv.appendChild(newnameLabel);
-//             new_imessageDiv.appendChild(newMessage);
-//         } else {
-//             var tempstring = "#imessage" + date;
-//             var imessageDiv = document.querySelector(tempstring);
-
-//             // Append newnameLabel to the imessageDiv
-//             imessageDiv.appendChild(newnameLabel);
-//             imessageDiv.appendChild(newMessage);
-            
-
-//             var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
-//             var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
-
-//             if (default_messagewidth > default_nameLabelwidth){
-//                 newnameLabel.style.width = default_messagewidth + "px";
-//             } else{
-//                 newMessage.style.width = default_nameLabelwidth + "px";
-//             }   
-//         }
-//     }
-// }
-
-function showall_Messages(messagesarray) {
-    messagesarray.sort(sortByDateTime);
-    console.log(messagesarray);
-
-    // before loading all messages- clear it first
-    var allMessagesarea = document.querySelector('#all_messages');
-    allMessagesarea.innerHTML = "";
-
-    let lastdate;
-
-    for (var i = 0; i < messagesarray.length; i++) {
-        let date = messagesarray[i]['SentTime'].split(' ')[0];
-
-        if (date != lastdate) { // 'if this is a new day'
-            addDatebanner(date);
-            lastdate = date;
-        }
-
-        addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], date);
-    }
-
-    scrollmessages_toBottom();
-}
-
-function addsingle_Message(message, senderID, date) {
+function addsingle_Message(message, senderID, makenewImessage, date) {
     var newMessage = document.createElement('p');
     newMessage.textContent = message;
 
     // Determine whether the message is from you or not
     if (senderID == currentUserID) {
         newMessage.classList.add('from-me');
-    } else {
-        var newnameLabel = addname_Label(findUsername(groupusersArray, senderID));
-        newMessage.classList.add('group-from-them');
-    }
 
-    var tempstring = "#imessage" + date;
-    var imessageDiv = document.querySelector(tempstring);
 
-    // Create a new imessage div if it's a new message for the day
-    if (!imessageDiv) {
-        imessageDiv = document.createElement('div');
-        imessageDiv.className = "imessage";
-        imessageDiv.id = "imessage" + date;
+        if (makenewImessage == true) {
+            var new_imessageDiv = document.createElement('div');
+            new_imessageDiv.className = "imessage";
+            new_imessageDiv.id = "imessage" + date;
 
-        var all_messages_container = document.querySelector('.all_messages_container');
-        all_messages_container.appendChild(imessageDiv);
-
-        if (senderID != currentUserID) {
-            // Append nameLabel only for messages from others
-            imessageDiv.appendChild(newnameLabel);
-        }
-    }
-
-    imessageDiv.appendChild(newMessage);
-
-    // Add event listener to handle width styling after the message is added to the DOM
-    newMessage.addEventListener('DOMNodeInserted', function() {
-        var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
-        var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
-
-        if (default_messagewidth > default_nameLabelwidth) {
-            newnameLabel.style.width = default_messagewidth + "px";
+            var all_messages_container = document.querySelector('.all_messages_container');
+            all_messages_container.appendChild(new_imessageDiv);
+            new_imessageDiv.appendChild(newMessage);
         } else {
-            newMessage.style.width = default_nameLabelwidth + "px";
+            var tempstring = "#imessage" + date;
+            var imessageDiv = document.querySelector(tempstring);
+            imessageDiv.appendChild(newMessage);
         }
-    });
+
+
+
+    } else {
+       // search through the groupusersArray for the username belonging to whoever sent this message
+        for (let i = 0; i < groupusersArray.length; i++) {
+            if (groupusersArray[i]['userID'] == senderID){
+                var newnameLabel = addname_Label(groupusersArray[i]['username']);
+            }
+     
+        }
+
+        newMessage.classList.add('group-from-them');
+
+        if (makenewImessage == true) {
+            var new_imessageDiv = document.createElement('div');
+            new_imessageDiv.className = "imessage";
+            new_imessageDiv.id = "imessage" + date;
+
+            var all_messages_container = document.querySelector('.all_messages_container');
+            all_messages_container.appendChild(new_imessageDiv);
+
+            new_imessageDiv.appendChild(newnameLabel);
+            new_imessageDiv.appendChild(newMessage);
+        } else {
+            var tempstring = "#imessage" + date;
+            var imessageDiv = document.querySelector(tempstring);
+
+            // Append newnameLabel to the imessageDiv
+            imessageDiv.appendChild(newnameLabel);
+            imessageDiv.appendChild(newMessage);
+            
+
+            var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
+            var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
+
+            if (default_messagewidth > default_nameLabelwidth){
+                newnameLabel.style.width = default_messagewidth + "px";
+            } else{
+                newMessage.style.width = default_nameLabelwidth + "px";
+            }   
+        }
+    }
 }
+
+
 
 
 function addDatebanner(date){
