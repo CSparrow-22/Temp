@@ -228,9 +228,9 @@ function fetchAll_messages(filters) {
 fetchAll_messages({GroupID: GroupID});
 
 // Call fetchAll_messages every second to update messages asynchronously
-setInterval(() => {
-fetchAll_messages({ GroupID: GroupID });
-}, 1000);
+// setInterval(() => {
+// fetchAll_messages({ GroupID: GroupID });
+// }, 1000);
 
 
 
