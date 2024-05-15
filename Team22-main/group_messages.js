@@ -298,9 +298,25 @@ function showall_Messages(messagesarray){
                 addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], true, date);
 
 
+
+                // if (messagesarray[i]['SenderID'] == currentUserID) {   // 'if the person logged in sent this message'
+                //     addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], true, date);
+
+                // } else {
+                    
+                //     addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], true, date);
+                // }
+
             } else{
 
                 addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], false, date);
+
+                // if (messagesarray[i]['SenderID'] == currentUserID) {
+                //     addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], false, date);
+
+                // } else {
+                //     addsingle_Message(messagesarray[i]['body'], messagesarray[i]['SenderID'], false, date);
+                // }
             }
 
             lastdate = date;          
@@ -368,6 +384,16 @@ function addsingle_Message(message, senderID, makenewImessage, date) {
 
             new_imessageDiv.appendChild(newnameLabel);
             new_imessageDiv.appendChild(newMessage);
+
+            var default_messagewidth = parseFloat(window.getComputedStyle(newMessage).width);
+            var default_nameLabelwidth = parseFloat(window.getComputedStyle(newnameLabel).width);
+
+            if (default_messagewidth > default_nameLabelwidth){
+                newnameLabel.style.width = default_messagewidth + "px";
+            } else{
+                newMessage.style.width = default_nameLabelwidth + "px";
+            }
+            
         } else {
             var tempstring = "#imessage" + date;
             var imessageDiv = document.querySelector(tempstring);
@@ -388,7 +414,6 @@ function addsingle_Message(message, senderID, makenewImessage, date) {
         }
     }
 }
-
 
 
 
