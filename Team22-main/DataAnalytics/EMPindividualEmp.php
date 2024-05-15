@@ -278,7 +278,7 @@ foreach ($tasks as $task) {
 		}
         if ($task['TaskID'] == $usertask['TaskID']) {
             // If TaskStatus is Ongoing or Overdue, add to merged_tasks
-            if ($task['TaskStatus'] == 'Ongoing' || $task['TaskStatus'] == 'Overdue') {
+            if ($task['TaskStatus'] == 'Ongoing' || $task['TaskStatus'] == 'Overdue' || $task['TaskStatus'] == 'Complete') {
                 $merged_tasks[] = array(
                     'TaskID' => $task['TaskID'],
                     'TaskDuration' => $task['TaskDuration'],
