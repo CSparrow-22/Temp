@@ -773,7 +773,7 @@ session_start()
                                 .then(data => {
                                     console.log('Response data:', data);
 
-                                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/userfriends')
+                                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')
                                     .then(response => {
                                         console.log('Response:', response);
                                         return response.text(); // Get the response text
