@@ -793,6 +793,8 @@ session_start()
                                             }
                                         }
 
+                                        console.log("Chat ID = " + chatID);
+
                                         const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
 
                                         const requestData = {
