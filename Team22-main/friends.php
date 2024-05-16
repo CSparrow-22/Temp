@@ -772,76 +772,9 @@ session_start()
                                 })
                                 .then(data => {
                                     console.log('Response data:', data);
-
-                                    fetch('http://34.142.47.100/Temp/Team22-main/API/index.php/chats')
-                                    .then(response => {
-                                        console.log('Response:', response);
-                                        return response.text(); // Get the response text
-                                    })
-                                    .then(text => {
-                                        console.log('Response Text:', text); // Log the response text
-                                        // Attempt to parse the response text as JSON
-                                        chats = JSON.parse(text);
-
-                                        var chatID;
-
-                                        for (var x = 0; x < chats.length; x++) {
-                                            if (chats[x]['userID1'] == thisUserID && chats[x]['userID2'] == friendsUserID) {
-                                                chatID = chats[x]['chatID'];
-                                            } else if (chats[x]['userID2'] == thisUserID && chats[x]['userID1'] == friendsUserID) {
-                                                chatID = chats[x]['chatID'];
-                                            }
-                                        }
-
-                                        console.log("Chat ID = " + chatID);
-
-                                        const endpoint = 'http://34.142.47.100/Temp/Team22-main/API/index.php/chats';
-
-                                        const requestData = {
-                                            chatID: chatID
-                                        };
-
-                                        const queryParams = new URLSearchParams(requestData).toString();
-
-                                        // Append the query parameters to the endpoint URL
-                                        const requestUrl = `${endpoint}?${queryParams}`;
-
-                                        // Define the request options
-                                        const requestOptions = {
-                                            method: 'DELETE',
-                                            headers: {
-                                                'X-API-KEY': 'abc123' // Replace with a valid API key
-                                            }
-                                        };
-
-                                        fetch(requestUrl, requestOptions)
-                                            .then(response => {
-                                                if (response.ok) {
-                                                    
-                                                    return response.json();
-                                                } else {
-                                                    throw new Error('Request failed with status ' + response.status);
-                                                }
-                                            })
-                                            .then(data => {
-                                                console.log('Response data:', data);
-
-                                                removeItem(element);
-                                                alert("Friend removed");
-                                                // Handle the response data as needed
-
-                                            })
-                                            .catch(error => {
-                                                console.error('Error:', error);
-                                                // Handle the error as needed
-                                            });
-                                        
-                                        })
-                                    .catch(error => {
-                                        console.error('Error:', error);
-                                        // Handle the error as needed
-                                    });
-
+                                    removeItem(element);
+                                    alert("Friend removed");
+                                    // Handle the response data as needed
                                 })
                                 .catch(error => {
                                     console.error('Error:', error);
